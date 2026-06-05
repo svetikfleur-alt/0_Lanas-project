@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StyleSelf — AI-гид для фотосессии</title>
+<meta
+  name="description"
+  content="StyleSelf помогает заранее понять свой стиль, подобрать образ и прийти на фотосессию с ясной визуальной концепцией."
+/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: "class" };
+</script>
+<style>
+  :root {
+    --bg: #f6f1eb;
+    --surface: rgba(255, 252, 248, 0.88);
+    --surface-alt: #fff7f1;
+    --fg: #191512;
+    --fg-secondary: #655a53;
+    --fg-muted: #8f847d;
+    --border: rgba(25, 21, 18, 0.08);
+    --accent: #e87a43;
+    --accent-strong: #c85e2e;
+    --card-shadow: 0 24px 80px rgba(55, 35, 24, 0.12);
+  }
+  html.dark {
+    --bg: #16100d;
+    --surface: rgba(29, 22, 18, 0.9);
+    --surface-alt: #241b16;
+    --fg: #fff5ee;
+    --fg-secondary: rgba(255, 241, 232, 0.74);
+    --fg-muted: rgba(255, 241, 232, 0.52);
+    --border: rgba(255, 241, 232, 0.1);
+    --accent: #f08a56;
+    --accent-strong: #ffab77;
+    --card-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(232, 122, 67, 0.18), transparent 24%),
+      radial-gradient(circle at top right, rgba(70, 50, 40, 0.08), transparent 18%),
+      linear-gradient(180deg, #f8f3ed 0%, #f3eee8 100%);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 200ms, color 200ms;
+  }
+  html.dark body {
+    background:
+      radial-gradient(circle at top left, rgba(232, 122, 67, 0.1), transparent 22%),
+      linear-gradient(180deg, #1a1410 0%, #110d0a 100%);
+  }
+  ::selection { background: rgba(232, 122, 67, 0.32); color: #111827; }
+  html.dark ::selection { background: rgba(240, 138, 86, 0.45); color: white; }
+  .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="landing/data.js"></script>
+</head>
+<body class="bg-[var(--surface)] text-[var(--fg)]">
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#E87A43"/>
+        <stop offset="100%" stop-color="#C85E2E"/>
+      </linearGradient>
+    </defs>
+    <rect x="480" y="280" width="240" height="240" rx="48" fill="url(#g)"/>
+    <text x="600" y="640" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="64" fill="#111827">StyleSelf</text>
+  </svg>
+</template>
+<div id="root"></div>
+<script type="text/babel" src="landing/components.jsx"></script>
+</body>
+</html>
