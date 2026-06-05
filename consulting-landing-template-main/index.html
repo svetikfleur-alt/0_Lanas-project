@@ -15,21 +15,21 @@
 </script>
 <style>
   :root {
-    --bg: #f6f1eb;
-    --surface: rgba(255, 252, 248, 0.88);
-    --surface-alt: #fff7f1;
-    --fg: #191512;
-    --fg-secondary: #655a53;
-    --fg-muted: #8f847d;
-    --border: rgba(25, 21, 18, 0.08);
+    --bg: #fbfaf8;
+    --surface: rgba(255, 252, 248, 0.92);
+    --surface-soft: #f8f3ee;
+    --fg: #181513;
+    --fg-secondary: #7b6f67;
+    --fg-muted: #998b84;
+    --border: rgba(24, 21, 19, 0.1);
     --accent: #e87a43;
     --accent-strong: #c85e2e;
-    --card-shadow: 0 24px 80px rgba(55, 35, 24, 0.12);
+    --card-shadow: 0 20px 60px rgba(43, 28, 19, 0.08);
   }
   html.dark {
     --bg: #16100d;
     --surface: rgba(29, 22, 18, 0.9);
-    --surface-alt: #241b16;
+    --surface-soft: #241b16;
     --fg: #fff5ee;
     --fg-secondary: rgba(255, 241, 232, 0.74);
     --fg-muted: rgba(255, 241, 232, 0.52);
@@ -41,19 +41,14 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-    background:
-      radial-gradient(circle at top left, rgba(232, 122, 67, 0.18), transparent 24%),
-      radial-gradient(circle at top right, rgba(70, 50, 40, 0.08), transparent 18%),
-      linear-gradient(180deg, #f8f3ed 0%, #f3eee8 100%);
+    background: var(--bg);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 200ms, color 200ms;
   }
   html.dark body {
-    background:
-      radial-gradient(circle at top left, rgba(232, 122, 67, 0.1), transparent 22%),
-      linear-gradient(180deg, #1a1410 0%, #110d0a 100%);
+    background: var(--bg);
   }
   ::selection { background: rgba(232, 122, 67, 0.32); color: #111827; }
   html.dark ::selection { background: rgba(240, 138, 86, 0.45); color: white; }
@@ -62,6 +57,8 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/config.js"></script>
 <script src="landing/data.js"></script>
 </head>
 <body class="bg-[var(--surface)] text-[var(--fg)]">

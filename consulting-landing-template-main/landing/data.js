@@ -2,7 +2,7 @@ window.DATA = {
   ru: {
     site: {
       brand: "StyleSelf",
-      navCta: "Получить доступ",
+      navCta: "Начать",
       copyright: "© 2026 StyleSelf. Все права защищены.",
     },
     nav: [
@@ -17,9 +17,9 @@ window.DATA = {
       titleAccent: "Хватит угадывать.",
       titleMain: "Узнай свой стиль до съёмки.",
       lead:
-        "StyleSelf помогает заранее понять, какие образы, настроение, свет и подача действительно работают на тебя. Без случайных референсов, без бесконечных примерок, без ощущения «я опять выбрала не то».",
+        "AI-бот задаёт вопросы, раскрывает твой настоящий визуальный образ и выдаёт готовый план фотосессии — без чужих шаблонов и без потери себя.",
       primaryCta: "Получить доступ",
-      secondaryCta: "Смотреть структуру",
+      secondaryCta: "Как это работает",
       stats: ["Персональный разбор", "Образы, позы и настроение", "Подготовка к съёмке без стресса"],
       visualAlt: "Тёплый editorial-портрет для главного экрана лендинга",
       noteTitle: "Сильная фотосессия начинается не с камеры",
@@ -30,13 +30,13 @@ window.DATA = {
         eyebrow: "Для кого",
         title: "Процесс не решается папкой с референсами.",
         text:
-          "Сотни сохранённых картинок не отвечают на главный вопрос: что подчеркнёт именно тебя, а не чужой типаж. StyleSelf превращает этот хаос в понятную систему.",
+          "Потратил(а) деньги и время, а контент не «продаёт» тебя. Люди не понимают, кто ты и что ты делаешь.",
       },
       {
         eyebrow: "Зачем это нужно",
-        title: "Съёмка получается уверенной, а не случайной.",
+        title: "Снова разочарование",
         text:
-          "Ты заранее понимаешь атмосферу, цвет, фактуру, ракурсы и общее ощущение кадра, поэтому на самой фотосессии не теряешься и не тратишь энергию впустую.",
+          "После очередной съёмки — ощущение, что это снова не то. Замкнутый круг из итераций без результата.",
       },
     ],
     steps: {
@@ -47,21 +47,21 @@ window.DATA = {
       items: [
         {
           number: "01",
-          title: "Ты описываешь запрос",
+          title: "AI задаёт вопросы",
           text:
-            "Пишешь, зачем тебе съёмка: личный бренд, контент, новый этап, обновление визуала или просто желание увидеть себя по-новому.",
+            "Telegram-бот ведёт тебя через умные вопросы о личности, целях и желаемом образе. Не знаешь ответа — покажем примеры.",
         },
         {
           number: "02",
-          title: "Получаешь персональный разбор",
+          title: "Профиль без масок",
           text:
-            "Сервис собирает твою стилистику: настроение, свет, цвет, силуэты, эмоции, позы и визуальные решения, которые усиливают именно твою подачу.",
+            "AI сохраняет твою идентичность: никаких навязанных трендов. Профиль строится вокруг того, кто ты есть — не кем нужно «казаться».",
         },
         {
           number: "03",
-          title: "Идёшь на съёмку спокойно",
+          title: "Готовый план съёмки",
           text:
-            "У тебя есть готовая база: от идеи и одежды до примеров позирования и общего ощущения будущих кадров.",
+            "Образы, локации, реквизит, настроение. Приходишь к фотографу с чётким ТЗ — и снимки наконец говорят именно о тебе.",
         },
       ],
     },
@@ -69,7 +69,7 @@ window.DATA = {
       eyebrow: "О результате",
       title: "Никаких чужих масок",
       text:
-        "Тебе не нужно влезать в образ, который существует только на Pinterest. Итоговый визуал должен усиливать твою естественную подачу, а не спорить с ней.",
+        "AI не ломает тебя под шаблон. Он распознаёт, кто ты есть на самом деле, и строит образ вокруг этого. Твоя идентичность — основа. Стиль — инструмент её выражения.",
       bullets: [
         "Образы, в которых тебе действительно комфортно",
         "Без навязанных архетипов и трендов ради трендов",
@@ -86,7 +86,7 @@ window.DATA = {
       eyebrow: "Об авторе",
       title: "Привет, я Надя",
       text:
-        "Я собрала StyleSelf как понятный инструмент для тех, кто хочет перестать сомневаться перед съёмкой и начать создавать визуал, который ощущается своим. Это не про копирование чужой эстетики, а про точную настройку на себя.",
+        "Я создала StyleSelf для людей, которые устали теряться перед съёмкой и хотят наконец получить визуальный образ, который считывается как их собственный. Здесь не про копирование чужой эстетики, а про узнавание себя.",
       facts: [
         "Фокус на визуальной идентичности, а не на случайных трендах",
         "Подход, который помогает и новичкам, и тем, кто уже снимался",
@@ -97,9 +97,9 @@ window.DATA = {
       title: "Один формат, всё включено",
       text:
         "Полный доступ к материалу, персональному разбору и маршруту подготовки к фотосессии.",
-      badge: "Самый понятный выбор",
-      name: "StyleSelf",
-      caption: "Разовый доступ ко всему материалу",
+      badge: "Самый популярный выбор",
+      name: "StyleSelf — полный доступ",
+      caption: "Разовая оплата, без подписки",
       value: "2999",
       currency: "₽",
       features: [
@@ -108,7 +108,11 @@ window.DATA = {
         "Подсказки для фотографа и moodboard съёмки",
         "Пожизненный доступ к материалу",
       ],
-      cta: "Получить доступ за 2999 ₽",
+      cta: "Купить за 2999 ₽",
+    },
+    checkout: {
+      loading: "Переход к оплате...",
+      error: "Не удалось открыть Stripe Checkout. Попробуй ещё раз.",
     },
     faq: {
       eyebrow: "Частые вопросы",
@@ -137,7 +141,7 @@ window.DATA = {
       title: "Твоя фотосессия начинается с тебя, а не с камеры",
       text:
         "Узнай свой стиль, собери ясную визуальную концепцию и приходи на съёмку в состоянии уверенности, а не импровизации.",
-      primary: "Получить доступ за 2999 ₽",
+      primary: "Купить за 2999 ₽",
       secondary: "Задать вопрос",
       secondaryHref: "mailto:hello@styleself.ru",
       small: "hello@styleself.ru",
@@ -175,7 +179,7 @@ window.DATA = {
   en: {
     site: {
       brand: "StyleSelf",
-      navCta: "Get Access",
+      navCta: "Start",
       copyright: "© 2026 StyleSelf. All rights reserved.",
     },
     nav: [
@@ -190,9 +194,9 @@ window.DATA = {
       titleAccent: "Stop guessing.",
       titleMain: "Know your style before the shoot.",
       lead:
-        "StyleSelf helps you understand in advance which outfits, mood, light, and visual language actually work for you. No random references, no endless try-ons, no more feeling like you chose the wrong direction again.",
+        "The AI bot asks the right questions, uncovers your real visual identity, and gives you a ready-made photoshoot plan without borrowed templates and without losing yourself.",
       primaryCta: "Get Access",
-      secondaryCta: "See the Structure",
+      secondaryCta: "How It Works",
       stats: ["Personalized analysis", "Outfits, poses, and mood", "Photoshoot prep without stress"],
       visualAlt: "Warm editorial portrait for the landing hero",
       noteTitle: "A strong photoshoot does not start with a camera",
@@ -203,13 +207,13 @@ window.DATA = {
         eyebrow: "Who it is for",
         title: "A folder of references does not solve the process.",
         text:
-          "Hundreds of saved images do not answer the real question: what will highlight you instead of someone else's type. StyleSelf turns that chaos into a clear system.",
+          "You spend money and time, but the content still does not represent you. People do not understand who you are and what you do.",
       },
       {
         eyebrow: "Why it matters",
-        title: "The shoot feels confident, not accidental.",
+        title: "Another disappointment",
         text:
-          "You understand the mood, color, texture, angles, and emotional tone in advance, so when the photoshoot happens you do not waste energy trying to improvise.",
+          "After another shoot, you feel it is still not right. A closed loop of iterations with no clear result.",
       },
     ],
     steps: {
@@ -220,21 +224,21 @@ window.DATA = {
       items: [
         {
           number: "01",
-          title: "You describe the goal",
+          title: "The AI asks questions",
           text:
-            "You explain why you need the shoot: personal brand, content, a new chapter, visual refresh, or simply the wish to see yourself differently.",
+            "The Telegram bot walks you through smart questions about personality, goals, and the image you want to create. If you are unsure, it shows examples.",
         },
         {
           number: "02",
-          title: "You get a personal breakdown",
+          title: "A profile without masks",
           text:
-            "The service maps your style: mood, light, color, silhouettes, emotion, posing, and visual choices that strengthen your own presence.",
+            "The AI preserves your identity instead of forcing trends onto you. The profile is built around who you are, not who you are supposed to appear as.",
         },
         {
           number: "03",
-          title: "You show up calm",
+          title: "A ready shoot plan",
           text:
-            "You have a ready-made base: from concept and clothing to posing references and the overall feel of the future images.",
+            "Outfits, locations, props, and mood. You arrive to the photographer with a clear brief, and the images finally speak about you.",
         },
       ],
     },
@@ -242,7 +246,7 @@ window.DATA = {
       eyebrow: "The result",
       title: "No borrowed masks",
       text:
-        "You do not need to squeeze into an image that only works on Pinterest. The final visual should amplify your natural presence instead of fighting it.",
+        "The AI does not force you into a template. It recognizes who you really are and builds the image around that. Your identity is the foundation. Style is just the tool that expresses it.",
       bullets: [
         "Looks that actually feel comfortable on you",
         "No imposed archetypes or trend-chasing",
@@ -259,7 +263,7 @@ window.DATA = {
       eyebrow: "About the author",
       title: "Hi, I'm Nadya",
       text:
-        "I built StyleSelf for people who want to stop second-guessing themselves before a shoot and start shaping visuals that feel truly their own. This is not about copying someone else's aesthetic. It is about tuning into yourself precisely.",
+        "I built StyleSelf for people who are tired of feeling lost before a shoot and want a visual image that actually reads as their own. This is not about copying someone else's aesthetic. It is about recognizing yourself precisely.",
       facts: [
         "Focused on visual identity, not random trends",
         "Useful for both first-time shoots and people with prior experience",
@@ -270,9 +274,9 @@ window.DATA = {
       title: "One format, everything included",
       text:
         "Full access to the material, personal analysis, and a complete route for photoshoot preparation.",
-      badge: "The clearest option",
-      name: "StyleSelf",
-      caption: "One-time access to the full experience",
+      badge: "Most popular choice",
+      name: "StyleSelf — full access",
+      caption: "One-time payment, no subscription",
       value: "2999",
       currency: "₽",
       features: [
@@ -281,7 +285,11 @@ window.DATA = {
         "Guidance for the photographer and a shoot moodboard",
         "Lifetime access to the material",
       ],
-      cta: "Get Access for 2999 ₽",
+      cta: "Buy for 2999 ₽",
+    },
+    checkout: {
+      loading: "Redirecting to payment...",
+      error: "Failed to open Stripe Checkout. Please try again.",
     },
     faq: {
       eyebrow: "FAQ",
@@ -310,7 +318,7 @@ window.DATA = {
       title: "Your photoshoot starts with you, not with the camera",
       text:
         "Understand your style, build a clear visual concept, and show up to the shoot feeling grounded instead of improvising everything on the spot.",
-      primary: "Get Access for 2999 ₽",
+      primary: "Buy for 2999 ₽",
       secondary: "Ask a Question",
       secondaryHref: "mailto:hello@styleself.ru",
       small: "hello@styleself.ru",
