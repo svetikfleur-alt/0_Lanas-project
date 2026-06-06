@@ -3,25 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daria Ivanova — Архитектурное бюро</title>
+    <title>StyleSelf — найди свой стиль с ИИ</title>
     <meta
       name="description"
-      content="Архитектурное бюро Daria Ivanova: проектирование, визуализация, 3D-моделирование и авторский надзор."
+      content="StyleSelf: персональный ИИ-стилист. Подберёт одежду, цвета и образы под ваш типаж, настроение и событие."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <!-- HERO -->
+    <div class="page">
+      <!-- =================== HERO =================== -->
       <section class="hero" id="hero">
         <header class="topbar">
-          <a class="brand" href="#hero">Daria Ivanova Architect</a>
+          <a class="brand" href="#hero">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">StyleSelf</span>
+          </a>
           <nav class="lang" aria-label="Language">
             <a href="#" class="is-active">EN</a>
             <a href="#">RU</a>
@@ -29,290 +32,281 @@
           </nav>
         </header>
 
-        <div class="hero-content">
+        <div class="hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Архитектурное бюро</p>
             <h1>
-              Мы создаём пространства, которые соединяют функциональность и эстетику
+              Поможем найти свой&nbsp;<span class="hl">Стиль</span>
             </h1>
-            <p class="hero-text">
-              Проектируем частные дома, апартаменты и общественные пространства —
-              от первой идеи и эскиза до финальной реализации под авторским надзором.
+            <p class="hero-sub">
+              StyleSelf&nbsp;— это&nbsp;ИИ-стилист, который подбирает
+              одежду, цвета и&nbsp;образы под&nbsp;ваш типаж, настроение
+              и&nbsp;событие.
             </p>
             <div class="hero-actions">
-              <a class="button button-light" href="#cta">Получить консультацию</a>
-              <a class="button button-outline-light" href="#packages">Пакеты услуг</a>
+              <a class="btn btn-light" href="#cta">Получить рекомендации</a>
+              <a class="btn btn-outline-light" href="#how">Пройти тест</a>
             </div>
           </div>
 
-          <div class="hero-visual">
-            <img
-              class="hero-portrait"
-              src="./frames/frame_00_00.0s.jpg"
-              alt="Дарья Иванова, архитектор"
-            />
-            <p class="hero-portrait-caption">Эксперт по архитектуре</p>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-portrait">
+              <img src="./frames/frame_00_00.0s.jpg" alt="" />
+              <div class="ribbon ribbon-top">★ Топ-стилист</div>
+              <div class="ribbon ribbon-bottom">ИИ-подбор</div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- VALUE: Мы ценим ваше время -->
-      <section class="value" id="value">
-        <div class="section-heading">
-          <p class="section-label">Подход</p>
-          <h2>Мы ценим ваше время</h2>
-          <p>
-            Понятный процесс, цифровые инструменты и прозрачные сроки — чтобы вы
-            видели результат на каждом этапе, а не ждали сюрприза в финале.
+      <!-- =================== HOW IT WORKS =================== -->
+      <section class="how" id="how">
+        <div class="how-head">
+          <p class="eyebrow">Как это работает</p>
+          <h2>Коротко объясним</h2>
+          <p class="how-sub">
+            Пять шагов от&nbsp;знакомства до&nbsp;персонального гардероба.
           </p>
         </div>
 
-        <div class="value-grid">
-          <div class="feature-list">
-            <article class="feature-card">
-              <div class="feature-icon">PDF</div>
-              <div>
-                <h3>PDF / Word чат-бот</h3>
-                <p>
-                  Все согласования, правки и версии проекта хранятся в одном
-                  месте. Вы открываете чат — получаете актуальный документ.
-                </p>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num">01</div>
+            <div class="step-icon">📋</div>
+            <h3>Бриф</h3>
+            <p>Отвечаете на&nbsp;5&nbsp;вопросов о&nbsp;себе, образе жизни и&nbsp;предпочтениях.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">02</div>
+            <div class="step-icon">🤖</div>
+            <h3>ИИ-анализ</h3>
+            <p>Нейросеть анализирует ваш цветотип, фигуру и&nbsp;стиль жизни.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">03</div>
+            <div class="step-icon">👗</div>
+            <h3>Подбор</h3>
+            <p>Получаете готовые образы с&nbsp;вещами из&nbsp;вашего гардероба.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">04</div>
+            <div class="step-icon">✨</div>
+            <h3>Примерка</h3>
+            <p>Собираете комплекты, обновляете в&nbsp;один клик и&nbsp;получаете обратную связь.</p>
+          </li>
+          <li class="step">
+            <div class="step-num">05</div>
+            <div class="step-icon">📦</div>
+            <h3>Гардероб</h3>
+            <p>Все образы&nbsp;— в&nbsp;приложении, доступны офлайн и&nbsp;в&nbsp;Telegram.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- =================== PHILOSOPHY =================== -->
+      <section class="philosophy">
+        <div class="phil-head">
+          <p class="eyebrow eyebrow-dark">Стиль — это...</p>
+          <h2>
+            Стиль — это&nbsp;не&nbsp;про одежду.<br />
+            Это&nbsp;про&nbsp;то, как&nbsp;вы&nbsp;чувствуете себя каждый&nbsp;день.
+          </h2>
+          <p class="phil-sub">
+            Мы&nbsp;не&nbsp;продаём вещи. Мы&nbsp;помогаем вам понять, что&nbsp;уже есть,
+            и&nbsp;собрать это&nbsp;в&nbsp;образы, которые работают на&nbsp;вас.
+          </p>
+        </div>
+
+        <div class="phil-grid">
+          <article class="phil-card">
+            <h3>Что вы получите</h3>
+            <ul>
+              <li>Персональную палитру цветов под&nbsp;ваш цветотип</li>
+              <li>Готовые комплекты на&nbsp;каждый день, работу, вечеринку</li>
+              <li>Список базовых вещей, которые вам действительно нужны</li>
+              <li>Чат с&nbsp;ИИ-стилистом в&nbsp;Telegram&nbsp;24/7</li>
+            </ul>
+          </article>
+          <article class="phil-card">
+            <h3>Для кого это</h3>
+            <ul>
+              <li>Тем, у&nbsp;кого шкаф полон, а&nbsp;надеть нечего</li>
+              <li>Тем, кто&nbsp;хочет выглядеть современно без&nbsp;лишних трат</li>
+              <li>Тем, кто&nbsp;ценит своё время и&nbsp;комфорт</li>
+              <li>Тем, кому важно чувствовать себя уверенно каждый день</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- =================== TELEGRAM DEMO =================== -->
+      <section class="telegram">
+        <div class="tg-grid">
+          <div class="tg-copy">
+            <p class="eyebrow eyebrow-dark">Telegram-бот</p>
+            <h2>Стилист в&nbsp;вашем&nbsp;телефоне</h2>
+            <p>
+              Просто напишите боту, что&nbsp;сегодня за&nbsp;день&nbsp;— встреча,
+              свидание, прогулка. Он&nbsp;подберёт образ за&nbsp;30&nbsp;секунд
+              и&nbsp;пришлёт фото с&nbsp;вещами, которые у&nbsp;вас уже&nbsp;есть.
+            </p>
+            <ul class="tg-bullets">
+              <li>Работает в&nbsp;Telegram и&nbsp;WhatsApp</li>
+              <li>Понимает голосовые и&nbsp;фото</li>
+              <li>Запоминает ваш стиль и&nbsp;предпочтения</li>
+            </ul>
+            <a class="btn btn-dark" href="#cta">Открыть в&nbsp;Telegram</a>
+          </div>
+
+          <div class="tg-phone" aria-hidden="true">
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="tg-msg tg-msg-in">Привет! Что сегодня?</div>
+                <div class="tg-msg tg-msg-out">У&nbsp;меня встреча в&nbsp;18, хочу выглядеть уверенно</div>
+                <div class="tg-msg tg-msg-in">
+                  Вот&nbsp;3&nbsp;образа под&nbsp;ваш цветотип.<br />
+                  Образ&nbsp;1: брючный костюм + белая рубашка
+                </div>
+                <div class="tg-msg tg-msg-card">
+                  <div class="tg-card-img"></div>
+                  <div class="tg-card-cap">Образ&nbsp;1 · casual</div>
+                </div>
+                <div class="tg-msg tg-msg-in">Можно заменить обувь?</div>
+                <div class="tg-msg tg-msg-out">Да, добавьте лоферы</div>
               </div>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon">3D</div>
-              <div>
-                <h3>3D-моделирование</h3>
-                <p>
-                  Ещё до стройки вы видите, как будет выглядеть интерьер и фасад:
-                  объём, свет, материалы и расстановка мебели.
-                </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== CATALOG =================== -->
+      <section class="catalog" id="catalog">
+        <div class="cat-photo">
+          <img src="./frames/frame_05_16.0s.jpg" alt="Стиль" />
+          <div class="cat-photo-badge">5</div>
+          <div class="cat-overlay">
+            <div class="cat-overlay-inner">
+              <p class="eyebrow">Каталог</p>
+              <h2>Найдите свой стиль</h2>
+              <p class="cat-sub">
+                Пять базовых эстетик, с&nbsp;которых начинается гардероб.
+                Откройте для&nbsp;себя то, что&nbsp;откликается.
+              </p>
+              <div class="cat-filters" role="tablist">
+                <button class="chip is-active" type="button">Все</button>
+                <button class="chip" type="button">Минимализм</button>
+                <button class="chip" type="button">Классика</button>
+                <button class="chip" type="button">Casual</button>
+                <button class="chip" type="button">Street</button>
+                <button class="chip" type="button">Романтика</button>
               </div>
-            </article>
-          </div>
-
-          <div class="process">
-            <h3>Как мы работаем</h3>
-            <ol class="process-list">
-              <li>
-                <span class="process-index">01</span>
-                <div>
-                  <strong>Бриф и встреча</strong>
-                  <span>Знакомимся с объектом, обсуждаем задачи и бюджет.</span>
-                </div>
-              </li>
-              <li>
-                <span class="process-index">02</span>
-                <div>
-                  <strong>Концепция и эскиз</strong>
-                  <span>Предлагаем планировки, стилистику и материалы.</span>
-                </div>
-              </li>
-              <li>
-                <span class="process-index">03</span>
-                <div>
-                  <strong>Проект и визуализация</strong>
-                  <span>Готовим рабочую документацию и 3D-визуализацию.</span>
-                </div>
-              </li>
-              <li>
-                <span class="process-index">04</span>
-                <div>
-                  <strong>Реализация и надзор</strong>
-                  <span>Сопровождаем стройку до финальной сдачи объекта.</span>
-                </div>
-              </li>
-            </ol>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- PACKAGES -->
-      <section class="packages" id="packages">
-        <div class="section-heading">
-          <p class="section-label">Пакеты</p>
-          <h2>Выберите формат работы</h2>
-          <p>
-            Три пакета под разные задачи: от разовой консультации до полного
-            авторского сопровождения объекта.
-          </p>
+      <!-- =================== TESTIMONIALS =================== -->
+      <section class="testimonials">
+        <div class="t-card">
+          <div class="t-photo">
+            <img src="./frames/frame_07_24.0s.jpg" alt="Анна" />
+          </div>
+          <div class="t-body">
+            <p class="eyebrow">Отзывы</p>
+            <h2 class="t-h2">Что говорят клиенты</h2>
+            <div class="t-quote">
+              «Я&nbsp;думала, что&nbsp;мой гардероб скучный&nbsp;— оказалось,
+              я&nbsp;просто не&nbsp;умела его&nbsp;собирать. За&nbsp;месяц
+              с&nbsp;ИИ-стилистом я&nbsp;собрала 40&nbsp;образов
+              из&nbsp;вещей, которые уже&nbsp;висели в&nbsp;шкафу.»
+            </div>
+            <div class="t-author">Анна, 28 лет</div>
+            <div class="t-role">маркетолог · Москва</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== TEAM =================== -->
+      <section class="team">
+        <div class="team-head">
+          <p class="eyebrow">Создатели</p>
+          <h2>Кто мы такие</h2>
         </div>
 
-        <div class="packages-grid">
-          <article class="package-card">
-            <p class="package-name">Оптимальный</p>
-            <p class="package-caption">Для готового ремонта и косметических изменений</p>
-            <div class="package-price">
-              <span class="package-price-value">80 000</span>
-              <span class="package-price-currency">₽</span>
+        <div class="team-grid">
+          <article class="team-card">
+            <div class="team-photo">
+              <img src="./frames/frame_01_03.0s.jpg" alt="Аня" />
             </div>
-            <ul class="package-features">
-              <li>Обмерный план и планировка</li>
-              <li>Подбор материалов и мебели</li>
-              <li>2 варианта концепции</li>
-              <li>3D-визуализация 2 ракурсов</li>
-              <li>Срок: 3 недели</li>
-            </ul>
-            <a class="button button-dark button-full" href="#cta">Получить</a>
+            <h3>Аня</h3>
+            <p class="team-role">Стилист, 8 лет в&nbsp;индустрии</p>
+            <p>
+              Собирает гардеробы для&nbsp;публичных людей и&nbsp;ведёт
+              колонку о&nbsp;стиле в&nbsp;Cosmo.
+            </p>
           </article>
-
-          <article class="package-card is-featured">
-            <p class="package-name">Премиум</p>
-            <p class="package-caption">Полный проект «под ключ» с авторским надзором</p>
-            <div class="package-price">
-              <span class="package-price-value">250 000</span>
-              <span class="package-price-currency">₽</span>
+          <article class="team-card">
+            <div class="team-photo">
+              <img src="./frames/frame_02_06.0s.jpg" alt="Лёша" />
             </div>
-            <ul class="package-features">
-              <li>Архитектурное и инженерное проектирование</li>
-              <li>3D-визуализация всех помещений</li>
-              <li>Рабочая документация для стройки</li>
-              <li>Авторский надзор 3 месяца</li>
-              <li>Срок: 2 месяца</li>
-            </ul>
-            <a class="button button-light button-full" href="#cta">Получить</a>
-          </article>
-
-          <article class="package-card">
-            <p class="package-name">Консультация</p>
-            <p class="package-caption">Разбор вашего проекта с архитектором</p>
-            <div class="package-price">
-              <span class="package-price-value">15 000</span>
-              <span class="package-price-currency">₽</span>
-            </div>
-            <ul class="package-features">
-              <li>2-часовая онлайн-встреча</li>
-              <li>Разбор планировки и стиля</li>
-              <li>Рекомендации по материалам</li>
-              <li>PDF-резюме после встречи</li>
-              <li>Срок: 5 дней</li>
-            </ul>
-            <a class="button button-dark button-full" href="#cta">Получить</a>
+            <h3>Лёша</h3>
+            <p class="team-role">ИИ-инженер, ex-Yandex</p>
+            <p>
+              Делает так, чтобы&nbsp;ИИ&nbsp;понимал стиль&nbsp;так&nbsp;же,
+              как&nbsp;хороший стилист&nbsp;— на&nbsp;уровне нюансов.
+            </p>
           </article>
         </div>
       </section>
 
-      <!-- PRICE LIST -->
-      <section class="price-list-section" id="price">
-        <div class="section-heading">
-          <p class="section-label">Стоимость</p>
-          <h2>Отдельные услуги</h2>
-          <p>
-            Если нужен не пакет, а конкретный этап работы — посмотрите стоимость
-            отдельных услуг.
-          </p>
-        </div>
-
-        <img
-          class="price-list-image"
-          src="./frames/frame_05_16.0s.jpg"
-          alt="Детали интерьера"
-        />
-
-        <div class="price-list-rows">
-          <div class="price-row">
-            <div>
-              <div class="price-row-title">Визуализация</div>
-              <span class="price-row-sub">3D-рендер помещения, 1 ракурс</span>
-            </div>
-            <div class="price-row-value">
-              5 000<span class="price-row-unit">₽/м²</span>
-            </div>
-          </div>
-          <div class="price-row">
-            <div>
-              <div class="price-row-title">Рабочий чертёж</div>
-              <span class="price-row-sub">Планировка, развёртки, узлы</span>
-            </div>
-            <div class="price-row-value">
-              1 000<span class="price-row-unit">₽/м²</span>
-            </div>
-          </div>
-          <div class="price-row">
-            <div>
-              <div class="price-row-title">Архитектурный проект</div>
-              <span class="price-row-sub">Полный комплект документации</span>
-            </div>
-            <div class="price-row-value">
-              3 000<span class="price-row-unit">₽/м²</span>
-            </div>
-          </div>
-          <div class="price-row">
-            <div>
-              <div class="price-row-title">Авторский надзор</div>
-              <span class="price-row-sub">Выезды, контроль стройки</span>
-            </div>
-            <div class="price-row-value">
-              10 000<span class="price-row-unit">₽/мес</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TEAM -->
-      <section class="team" id="team">
-        <div class="section-heading">
-          <p class="section-label">Команда</p>
-          <h2>Архитекторы, которые ведут ваш проект</h2>
-          <p>
-            Маленькая студия — большое внимание к деталям. С вами работают
-            конкретные люди, а не отдел из десятков сотрудников.
-          </p>
-        </div>
-        <img
-          class="team-image"
-          src="./frames/frame_07_24.0s.jpg"
-          alt="Дарья и Артур — команда бюро"
-        />
-      </section>
-
-      <!-- TESTIMONIALS -->
-      <section class="testimonials" id="testimonials">
-        <div class="section-heading">
-          <p class="section-label">Отзывы</p>
-          <h2>Что говорят клиенты</h2>
-        </div>
-
-        <div class="testimonial-card">
-          <p class="testimonial-quote">
-            «Команда Дарьи сделала проект, который мы не могли представить
-            даже на референсах. Сдали в срок, без единой правки сверх
-            согласованного объёма — и с вниманием к деталям, которое мы редко
-            встречали.»
-          </p>
-          <div class="testimonial-meta">
-            <img
-              class="testimonial-image"
-              src="./frames/frame_09_31.0s.jpg"
-              alt="Клиенты бюро"
-            />
-            <p class="testimonial-author">Анна и Михаил</p>
-            <p class="testimonial-role">Частный дом, 240 м²</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FINAL CTA -->
+      <!-- =================== FAQ + CTA =================== -->
       <section class="cta" id="cta">
-        <h2>Готовы обсудить ваш проект?</h2>
+        <h2>Готовы найти свой&nbsp;стиль?</h2>
         <p>
-          Оставьте заявку — вернёмся в течение дня, чтобы согласовать встречу
-          и ответить на все вопросы.
+          Пройдите короткий тест&nbsp;— за&nbsp;2&nbsp;минуты мы&nbsp;поймём,
+          что&nbsp;вам подходит, и&nbsp;пришлём первые 5&nbsp;образов.
         </p>
-        <div class="hero-actions">
-          <a class="button button-dark" href="mailto:hello@daria-ivanova.ru">Написать на почту</a>
-          <a class="button button-outline-dark" href="#packages">Посмотреть пакеты</a>
+        <div class="cta-actions">
+          <a class="btn btn-dark" href="#">Пройти тест</a>
+          <a class="btn btn-outline-dark" href="#">Написать в&nbsp;Telegram</a>
         </div>
       </section>
 
-      <!-- FOOTER -->
-      <footer class="footer">
-        <span>© 2026 Daria Ivanova Architect</span>
-        <div class="footer-links">
-          <a href="mailto:hello@daria-ivanova.ru">hello@daria-ivanova.ru</a>
-          <a href="tel:+79991234567">+7 (999) 123-45-67</a>
-          <a href="#hero">Политика конфиденциальности</a>
+      <!-- =================== FAQ =================== -->
+      <section class="faq">
+        <h2>Частые вопросы</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Сколько стоит?</summary>
+            <p>Бесплатный тест и&nbsp;3&nbsp;первых образа. Дальше&nbsp;— от&nbsp;990&nbsp;₽/мес.</p>
+          </details>
+          <details>
+            <summary>Это приложение?</summary>
+            <p>Мы&nbsp;работаем в&nbsp;Telegram и&nbsp;WhatsApp&nbsp;— не&nbsp;нужно ничего скачивать.</p>
+          </details>
+          <details>
+            <summary>А если я ничего не&nbsp;понимаю в&nbsp;моде?</summary>
+            <p>Это&nbsp;и&nbsp;есть суть сервиса. ИИ&nbsp;задаст простые вопросы и&nbsp;всё&nbsp;сделает&nbsp;сам.</p>
+          </details>
+          <details>
+            <summary>Как это работает технически?</summary>
+            <p>Нейросеть анализирует ваши фото и&nbsp;ответы, подбирает образы и&nbsp;присылает их&nbsp;в&nbsp;чат.</p>
+          </details>
         </div>
+      </section>
+
+      <!-- =================== FOOTER =================== -->
+      <footer class="footer">
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span class="brand-name">StyleSelf</span>
+        </div>
+        <div class="footer-links">
+          <a href="#how">Как работает</a>
+          <a href="#catalog">Каталог</a>
+          <a href="#cta">Telegram</a>
+          <a href="mailto:hello@styleself.app">hello@styleself.app</a>
+        </div>
+        <div class="footer-meta">© 2026 StyleSelf</div>
       </footer>
     </div>
   </body>
