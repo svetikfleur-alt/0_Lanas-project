@@ -109,6 +109,7 @@ window.DATA = {
         "Пожизненный доступ к материалу",
       ],
       cta: "Купить за 2999 ₽",
+      telegramCta: "Тест: открыть Telegram",
     },
     checkout: {
       loading: "Переход к оплате...",
@@ -142,6 +143,7 @@ window.DATA = {
       text:
         "Узнай свой стиль, собери ясную визуальную концепцию и приходи на съёмку в состоянии уверенности, а не импровизации.",
       primary: "Купить за 2999 ₽",
+      telegram: "Тест: перейти в Telegram",
       secondary: "Задать вопрос",
       secondaryHref: "mailto:hello@styleself.ru",
       small: "hello@styleself.ru",
@@ -286,6 +288,7 @@ window.DATA = {
         "Lifetime access to the material",
       ],
       cta: "Buy for 2999 ₽",
+      telegramCta: "Test: open Telegram",
     },
     checkout: {
       loading: "Redirecting to payment...",
@@ -319,6 +322,7 @@ window.DATA = {
       text:
         "Understand your style, build a clear visual concept, and show up to the shoot feeling grounded instead of improvising everything on the spot.",
       primary: "Buy for 2999 ₽",
+      telegram: "Test: go to Telegram",
       secondary: "Ask a Question",
       secondaryHref: "mailto:hello@styleself.ru",
       small: "hello@styleself.ru",

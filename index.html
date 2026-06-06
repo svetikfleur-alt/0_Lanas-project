@@ -3,236 +3,315 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StyleSelf</title>
+    <title>Daria Ivanova — Архитектурное бюро</title>
     <meta
       name="description"
-      content="Лендинг о персональной фотосессии и подготовке к съёмке в узнаваемой editorial-эстетике."
+      content="Архитектурное бюро Daria Ivanova: проектирование, визуализация, 3D-моделирование и авторский надзор."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
     <div class="page-shell">
-      <header class="topbar">
-        <a class="brand" href="#hero">StyleSelf</a>
-        <nav class="topnav">
-          <a href="#benefits">О проекте</a>
-          <a href="#steps">Как это работает</a>
-          <a href="#author">Автор</a>
-          <a href="#price">Доступ</a>
-        </nav>
-        <a class="button button-small button-solid" href="#price">Начать</a>
-      </header>
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <header class="topbar">
+          <a class="brand" href="#hero">Daria Ivanova Architect</a>
+          <nav class="lang" aria-label="Language">
+            <a href="#" class="is-active">EN</a>
+            <a href="#">RU</a>
+            <a href="#">KG</a>
+          </nav>
+        </header>
 
-      <main>
-        <section class="hero" id="hero">
+        <div class="hero-content">
           <div class="hero-copy">
-            <p class="eyebrow">AI-гид для фотосессии</p>
+            <p class="eyebrow">Архитектурное бюро</p>
             <h1>
-              Хватит угадывать.
-              <span>Узнай свой стиль до съёмки.</span>
+              Мы создаём пространства, которые соединяют функциональность и эстетику
             </h1>
             <p class="hero-text">
-              StyleSelf помогает понять, какие образы, ракурсы и детали действительно
-              работают на тебя. Без хаотичных сохранёнок, без лишних примерок, без
-              ощущения «я опять не попала».
+              Проектируем частные дома, апартаменты и общественные пространства —
+              от первой идеи и эскиза до финальной реализации под авторским надзором.
             </p>
             <div class="hero-actions">
-              <a class="button button-solid" href="#price">Получить доступ</a>
-              <a class="button button-ghost" href="#steps">Как это работает</a>
+              <a class="button button-light" href="#cta">Получить консультацию</a>
+              <a class="button button-outline-light" href="#packages">Пакеты услуг</a>
             </div>
-            <ul class="hero-notes">
-              <li>Персональный разбор внешности и вайба</li>
-              <li>Подбор стилистики, поз и настроения</li>
-              <li>Понятный маршрут от идеи до кадра</li>
-            </ul>
           </div>
+
           <div class="hero-visual">
-            <img src="./frames/frame_00_00.0s.jpg" alt="Модель в тёплом editorial-кадре" />
-            <div class="hero-card">
-              <strong>Сильная фотосессия начинается не с камеры</strong>
-              <span>Она начинается с ясного понимания себя.</span>
-            </div>
+            <img
+              class="hero-portrait"
+              src="./frames/frame_00_00.0s.jpg"
+              alt="Дарья Иванова, архитектор"
+            />
+            <p class="hero-portrait-caption">Эксперт по архитектуре</p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="intro-grid" id="benefits">
-          <article class="intro-card">
-            <p class="section-label">Для кого</p>
-            <h2>Процесс не решается референсами.</h2>
-            <p>
-              Сотни сохранённых кадров не отвечают на главный вопрос: что именно
-              подчеркнёт тебя, а не чужой типаж. StyleSelf собирает это в цельную систему.
-            </p>
-          </article>
-          <article class="intro-card">
-            <p class="section-label">Зачем это нужно</p>
-            <h2>Съёмка получается уверенной, а не случайной.</h2>
-            <p>
-              Ты заранее понимаешь атмосферу, цвет, фактуру, позирование и динамику кадра,
-              поэтому на самой фотосессии не теряешься и не тратишь энергию впустую.
-            </p>
-          </article>
-        </section>
-
-        <section class="steps" id="steps">
-          <div class="section-heading">
-            <p class="section-label">Как это работает</p>
-            <h2>Три шага к фотосессии, которая говорит о тебе</h2>
-            <p>
-              Никаких таблиц и шаблонов. Только короткий путь от «не знаю, какой образ
-              выбрать» к ясной съёмочной концепции.
-            </p>
-          </div>
-          <div class="steps-grid">
-            <article class="step-card">
-              <span class="step-index">01</span>
-              <h3>Ты делишься запросом</h3>
-              <p>
-                Заполняешь форму и описываешь задачу: личный бренд, портрет, съёмка для себя
-                или обновление визуала в соцсетях.
-              </p>
-            </article>
-            <article class="step-card">
-              <span class="step-index">02</span>
-              <h3>Получаешь персональный разбор</h3>
-              <p>
-                Сервис собирает твою стилистику: настроение, свет, цвет, силуэты, эмоции,
-                позы и фактуры, которые работают именно на тебя.
-              </p>
-            </article>
-            <article class="step-card">
-              <span class="step-index">03</span>
-              <h3>Идёшь на съёмку спокойно</h3>
-              <p>
-                У тебя есть готовая база: от идеи и одежды до примеров позирования и общего
-                ощущения будущих кадров.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="story-grid">
-          <article class="story-card story-card-wide">
-            <img src="./frames/frame_04_12.0s.jpg" alt="Портрет мужчины в студийной съёмке" />
-            <div class="story-copy">
-              <p class="section-label">О результате</p>
-              <h2>Никаких чужих масок</h2>
-              <p>
-                Тебе не нужно влезать в модный образ, который живёт только на Pinterest.
-                Итоговый визуал должен усиливать твою естественную подачу, а не спорить с ней.
-              </p>
-              <ul class="check-list">
-                <li>Образы, в которых тебе действительно комфортно</li>
-                <li>Без навязанных архетипов</li>
-                <li>Работает и для личного бренда, и для себя</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="story-card">
-            <img src="./frames/frame_05_16.0s.jpg" alt="Автор проекта" />
-            <div class="story-copy">
-              <p class="section-label">Об авторе</p>
-              <h2 id="author">Привет, я Надя</h2>
-              <p>
-                Я собрала StyleSelf как понятный инструмент для тех, кто хочет перестать
-                сомневаться перед съёмкой и начать создавать визуал, который ощущается своим.
-              </p>
-            </div>
-          </article>
-
-          <article class="story-card">
-            <img src="./frames/frame_03_09.0s.jpg" alt="Коллаж с портретом и мягким розовым фоном" />
-            <div class="story-copy">
-              <p class="section-label">Что внутри</p>
-              <h2>Система, а не вдохновение на один вечер</h2>
-              <p>
-                Ты получаешь не просто набор картинок, а структуру: какие фото выбирать,
-                что надевать, как держаться в кадре и какой вайб собирать.
-              </p>
-            </div>
-          </article>
-        </section>
-
-        <section class="pricing" id="price">
-          <div class="section-heading">
-            <p class="section-label">Доступ</p>
-            <h2>Один формат, всё включено</h2>
-            <p>
-              Полный доступ к базе, персональному разбору и маршруту подготовки к съёмке.
-            </p>
-          </div>
-          <div class="price-card">
-            <div>
-              <p class="price-badge">Самый понятный выбор</p>
-              <h3>StyleSelf</h3>
-              <p class="price-caption">Разовый доступ ко всему материалу</p>
-            </div>
-            <div class="price-main">
-              <span class="price-value">2999</span>
-              <span class="price-currency">₽</span>
-            </div>
-            <ul class="price-list">
-              <li>AI-разбор твоей внешности и стилистики</li>
-              <li>Подбор образов, поз и света</li>
-              <li>Подсказки для фотографа и moodboard съёмки</li>
-              <li>Пожизненный доступ к материалу</li>
-            </ul>
-            <a class="button button-solid button-full" href="#cta">Получить доступ за 2999 ₽</a>
-          </div>
-        </section>
-
-        <section class="faq">
-          <div class="section-heading">
-            <p class="section-label">Частые вопросы</p>
-            <h2>Чтобы ты не сомневалась до оплаты</h2>
-          </div>
-          <div class="faq-list">
-            <details open>
-              <summary>Как я получу доступ после оплаты?</summary>
-              <p>Сразу после оплаты открывается страница с материалами и инструкцией по старту.</p>
-            </details>
-            <details>
-              <summary>Сколько времени занимает прохождение?</summary>
-              <p>Первый понятный результат можно собрать за один вечер, без сложного онбординга.</p>
-            </details>
-            <details>
-              <summary>Подойдёт ли для личного бренда?</summary>
-              <p>Да. Методика одинаково полезна для экспертов, творческих проектов и съёмок для себя.</p>
-            </details>
-            <details>
-              <summary>Что если результат мне не откликнется?</summary>
-              <p>Система строится на твоих вводных, поэтому фокус не на трендах, а на личной подаче.</p>
-            </details>
-          </div>
-        </section>
-
-        <section class="cta" id="cta">
-          <p class="section-label">Финальный шаг</p>
-          <h2>Твоя фотосессия начинается с тебя, а не с камеры</h2>
+      <!-- VALUE: Мы ценим ваше время -->
+      <section class="value" id="value">
+        <div class="section-heading">
+          <p class="section-label">Подход</p>
+          <h2>Мы ценим ваше время</h2>
           <p>
-            Узнай свой стиль, собери ясную визуальную концепцию и приходи на съёмку в состоянии
-            уверенности, а не импровизации.
+            Понятный процесс, цифровые инструменты и прозрачные сроки — чтобы вы
+            видели результат на каждом этапе, а не ждали сюрприза в финале.
           </p>
-          <div class="hero-actions">
-            <a class="button button-solid" href="#hero">Получить доступ за 2999 ₽</a>
-            <a class="button button-ghost button-on-dark" href="mailto:hello@styleself.ru">Задать вопрос</a>
-          </div>
-        </section>
-      </main>
+        </div>
 
+        <div class="value-grid">
+          <div class="feature-list">
+            <article class="feature-card">
+              <div class="feature-icon">PDF</div>
+              <div>
+                <h3>PDF / Word чат-бот</h3>
+                <p>
+                  Все согласования, правки и версии проекта хранятся в одном
+                  месте. Вы открываете чат — получаете актуальный документ.
+                </p>
+              </div>
+            </article>
+            <article class="feature-card">
+              <div class="feature-icon">3D</div>
+              <div>
+                <h3>3D-моделирование</h3>
+                <p>
+                  Ещё до стройки вы видите, как будет выглядеть интерьер и фасад:
+                  объём, свет, материалы и расстановка мебели.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <div class="process">
+            <h3>Как мы работаем</h3>
+            <ol class="process-list">
+              <li>
+                <span class="process-index">01</span>
+                <div>
+                  <strong>Бриф и встреча</strong>
+                  <span>Знакомимся с объектом, обсуждаем задачи и бюджет.</span>
+                </div>
+              </li>
+              <li>
+                <span class="process-index">02</span>
+                <div>
+                  <strong>Концепция и эскиз</strong>
+                  <span>Предлагаем планировки, стилистику и материалы.</span>
+                </div>
+              </li>
+              <li>
+                <span class="process-index">03</span>
+                <div>
+                  <strong>Проект и визуализация</strong>
+                  <span>Готовим рабочую документацию и 3D-визуализацию.</span>
+                </div>
+              </li>
+              <li>
+                <span class="process-index">04</span>
+                <div>
+                  <strong>Реализация и надзор</strong>
+                  <span>Сопровождаем стройку до финальной сдачи объекта.</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- PACKAGES -->
+      <section class="packages" id="packages">
+        <div class="section-heading">
+          <p class="section-label">Пакеты</p>
+          <h2>Выберите формат работы</h2>
+          <p>
+            Три пакета под разные задачи: от разовой консультации до полного
+            авторского сопровождения объекта.
+          </p>
+        </div>
+
+        <div class="packages-grid">
+          <article class="package-card">
+            <p class="package-name">Оптимальный</p>
+            <p class="package-caption">Для готового ремонта и косметических изменений</p>
+            <div class="package-price">
+              <span class="package-price-value">80 000</span>
+              <span class="package-price-currency">₽</span>
+            </div>
+            <ul class="package-features">
+              <li>Обмерный план и планировка</li>
+              <li>Подбор материалов и мебели</li>
+              <li>2 варианта концепции</li>
+              <li>3D-визуализация 2 ракурсов</li>
+              <li>Срок: 3 недели</li>
+            </ul>
+            <a class="button button-dark button-full" href="#cta">Получить</a>
+          </article>
+
+          <article class="package-card is-featured">
+            <p class="package-name">Премиум</p>
+            <p class="package-caption">Полный проект «под ключ» с авторским надзором</p>
+            <div class="package-price">
+              <span class="package-price-value">250 000</span>
+              <span class="package-price-currency">₽</span>
+            </div>
+            <ul class="package-features">
+              <li>Архитектурное и инженерное проектирование</li>
+              <li>3D-визуализация всех помещений</li>
+              <li>Рабочая документация для стройки</li>
+              <li>Авторский надзор 3 месяца</li>
+              <li>Срок: 2 месяца</li>
+            </ul>
+            <a class="button button-light button-full" href="#cta">Получить</a>
+          </article>
+
+          <article class="package-card">
+            <p class="package-name">Консультация</p>
+            <p class="package-caption">Разбор вашего проекта с архитектором</p>
+            <div class="package-price">
+              <span class="package-price-value">15 000</span>
+              <span class="package-price-currency">₽</span>
+            </div>
+            <ul class="package-features">
+              <li>2-часовая онлайн-встреча</li>
+              <li>Разбор планировки и стиля</li>
+              <li>Рекомендации по материалам</li>
+              <li>PDF-резюме после встречи</li>
+              <li>Срок: 5 дней</li>
+            </ul>
+            <a class="button button-dark button-full" href="#cta">Получить</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- PRICE LIST -->
+      <section class="price-list-section" id="price">
+        <div class="section-heading">
+          <p class="section-label">Стоимость</p>
+          <h2>Отдельные услуги</h2>
+          <p>
+            Если нужен не пакет, а конкретный этап работы — посмотрите стоимость
+            отдельных услуг.
+          </p>
+        </div>
+
+        <img
+          class="price-list-image"
+          src="./frames/frame_05_16.0s.jpg"
+          alt="Детали интерьера"
+        />
+
+        <div class="price-list-rows">
+          <div class="price-row">
+            <div>
+              <div class="price-row-title">Визуализация</div>
+              <span class="price-row-sub">3D-рендер помещения, 1 ракурс</span>
+            </div>
+            <div class="price-row-value">
+              5 000<span class="price-row-unit">₽/м²</span>
+            </div>
+          </div>
+          <div class="price-row">
+            <div>
+              <div class="price-row-title">Рабочий чертёж</div>
+              <span class="price-row-sub">Планировка, развёртки, узлы</span>
+            </div>
+            <div class="price-row-value">
+              1 000<span class="price-row-unit">₽/м²</span>
+            </div>
+          </div>
+          <div class="price-row">
+            <div>
+              <div class="price-row-title">Архитектурный проект</div>
+              <span class="price-row-sub">Полный комплект документации</span>
+            </div>
+            <div class="price-row-value">
+              3 000<span class="price-row-unit">₽/м²</span>
+            </div>
+          </div>
+          <div class="price-row">
+            <div>
+              <div class="price-row-title">Авторский надзор</div>
+              <span class="price-row-sub">Выезды, контроль стройки</span>
+            </div>
+            <div class="price-row-value">
+              10 000<span class="price-row-unit">₽/мес</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEAM -->
+      <section class="team" id="team">
+        <div class="section-heading">
+          <p class="section-label">Команда</p>
+          <h2>Архитекторы, которые ведут ваш проект</h2>
+          <p>
+            Маленькая студия — большое внимание к деталям. С вами работают
+            конкретные люди, а не отдел из десятков сотрудников.
+          </p>
+        </div>
+        <img
+          class="team-image"
+          src="./frames/frame_07_24.0s.jpg"
+          alt="Дарья и Артур — команда бюро"
+        />
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="testimonials" id="testimonials">
+        <div class="section-heading">
+          <p class="section-label">Отзывы</p>
+          <h2>Что говорят клиенты</h2>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-quote">
+            «Команда Дарьи сделала проект, который мы не могли представить
+            даже на референсах. Сдали в срок, без единой правки сверх
+            согласованного объёма — и с вниманием к деталям, которое мы редко
+            встречали.»
+          </p>
+          <div class="testimonial-meta">
+            <img
+              class="testimonial-image"
+              src="./frames/frame_09_31.0s.jpg"
+              alt="Клиенты бюро"
+            />
+            <p class="testimonial-author">Анна и Михаил</p>
+            <p class="testimonial-role">Частный дом, 240 м²</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="cta" id="cta">
+        <h2>Готовы обсудить ваш проект?</h2>
+        <p>
+          Оставьте заявку — вернёмся в течение дня, чтобы согласовать встречу
+          и ответить на все вопросы.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="mailto:hello@daria-ivanova.ru">Написать на почту</a>
+          <a class="button button-outline-dark" href="#packages">Посмотреть пакеты</a>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
       <footer class="footer">
-        <span>© 2026 StyleSelf</span>
+        <span>© 2026 Daria Ivanova Architect</span>
         <div class="footer-links">
-          <a href="#benefits">Политика конфиденциальности</a>
-          <a href="#price">Условия использования</a>
-          <a href="mailto:hello@styleself.ru">Контакт</a>
+          <a href="mailto:hello@daria-ivanova.ru">hello@daria-ivanova.ru</a>
+          <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+          <a href="#hero">Политика конфиденциальности</a>
         </div>
       </footer>
     </div>

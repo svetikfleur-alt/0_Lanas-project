@@ -395,6 +395,11 @@ function Author({ t }) {
 }
 
 function Pricing({ t, onCheckout, isCheckingOut }) {
+  const isLocalPreview =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "::1";
+
   return (
     <section id="pricing" className="px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-[1560px]">
@@ -428,6 +433,14 @@ function Pricing({ t, onCheckout, isCheckingOut }) {
             <ActionButton onClick={onCheckout} disabled={isCheckingOut} className="mt-10 w-full">
               {isCheckingOut ? t.checkout.loading : t.pricing.cta}
             </ActionButton>
+            {isLocalPreview ? (
+              <GhostButton
+                href="https://t.me/StyleSelf_with_Svetlana"
+                className="mt-4 w-full"
+              >
+                {t.pricing.telegramCta}
+              </GhostButton>
+            ) : null}
           </div>
         </div>
       </div>
@@ -481,6 +494,11 @@ function FAQ({ t }) {
 }
 
 function CTA({ t, onCheckout, isCheckingOut }) {
+  const isLocalPreview =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "::1";
+
   return (
     <section id="cta" className="px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-[1560px] overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_78%_40%,rgba(232,122,67,0.22),transparent_22%),linear-gradient(180deg,#17120f_0%,#0f0b09_100%)] px-8 py-20 text-center sm:px-12">
@@ -497,6 +515,11 @@ function CTA({ t, onCheckout, isCheckingOut }) {
           <ActionButton onClick={onCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? t.checkout.loading : t.cta.primary}
           </ActionButton>
+          {isLocalPreview ? (
+            <GhostButton href="https://t.me/StyleSelf_with_Svetlana" dark>
+              {t.cta.telegram}
+            </GhostButton>
+          ) : null}
           <GhostButton href={t.cta.secondaryHref} dark>
             {t.cta.secondary}
           </GhostButton>
@@ -569,17 +592,14 @@ function App() {
 
     try {
       const config = window.APP_CONFIG || {};
-      if (!config.stripePublishableKey) {
-        throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not configured");
-      }
 
-      const response = await fetch(config.checkoutEndpoint || "/api/create-checkout-session", {
+      const response = await fetch(config.createPaymentEndpoint || "/api/payments/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          origin: window.location.origin,
+          productId: "styleself_full_access",
         }),
       });
 
@@ -588,15 +608,12 @@ function App() {
         throw new Error(payload.error || t.checkout.error);
       }
 
-      const stripe = window.Stripe(config.stripePublishableKey);
-      const result = await stripe.redirectToCheckout({ sessionId: payload.sessionId });
-      if (result?.error) {
-        throw new Error(result.error.message);
+      if (payload.checkoutUrl) {
+        window.location.href = payload.checkoutUrl;
+        return;
       }
 
-      if (payload.url) {
-        window.location.href = payload.url;
-      }
+      throw new Error(t.checkout.error);
     } catch (error) {
       setCheckoutError(error.message || t.checkout.error);
       setIsCheckingOut(false);

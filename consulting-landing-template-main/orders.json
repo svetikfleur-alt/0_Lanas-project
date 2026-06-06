@@ -1,0 +1,14 @@
+[
+  {
+    "orderId": "ord_1f8207fab9cae0ad",
+    "productId": "styleself_full_access",
+    "amount": 2999,
+    "currency": "RUB",
+    "customerEmail": "",
+    "provider": "fondy",
+    "status": "pending",
+    "createdAt": "2026-06-05T18:22:38.841Z",
+    "paidAt": null,
+    "meta": {}
+  }
+]

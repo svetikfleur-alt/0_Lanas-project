@@ -1,189 +1,45 @@
-**Язык:** Русский · [English](README.en.md)
+# Visual Identity Lab
 
-# AI Agents Incubator — Consulting Template
+Visual Identity Lab is a structured MVP for identity discovery, archetype analysis, visual direction, image concept generation, payment and delivery.
 
-> **Живой пример:** <https://alexkrol.com/preview/> — реальный лендинг, собранный на этом шаблоне автором методологии. Открывайте на десктопе и телефоне, переключайте RU/EN, светлую/тёмную тему — это и есть то, что вы получите после форка и кастомизации.
+## Stack
 
-Готовый к продакшену zero-build React шаблон лендинга для консультантов, advisory-практик и бутиковых команд.
-В комплекте — проверенная **методология** (как упаковать advisory-оффер) и **bootstrap-промпт**
-для AI, который за короткое интервью кастомизирует весь лендинг под вас.
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Provider abstractions for AI, image generation, payments and delivery
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/AI-agents-incubator/consulting-landing-template)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AI-agents-incubator/consulting-landing-template)
+## Structure
 
----
+- `src/app` - routes and API handlers
+- `src/components` - shared UI shell
+- `src/features` - feature-level client flows
+- `src/providers` - provider contracts and implementations
+- `src/services` - orchestration and domain logic
+- `src/types` - shared domain types
+- `src/content` - archetype content files
 
-## Что это такое
-
-Три вещи в одном пакете:
-
-1. **Шаблон** — двуязычный (RU/EN) одностраничный лендинг со светлой и тёмной темой,
-   который работает прямо в браузере без билда. Заливаете на любой статический хостинг —
-   и всё работает.
-2. **Методология** — структура из 14 секций, логика копирайта, принцип трёх тарифов
-   и механика дисквалификации, благодаря которым advisory-лендинг действительно конвертит.
-   См. [METHODOLOGY.md](METHODOLOGY.md).
-3. **Процесс AI-кастомизации** — готовый промпт для Claude Code, который за десять минут
-   проводит с вами интервью и переписывает все плейсхолдеры под ваше позиционирование.
-   См. [BOOTSTRAP-PROMPT.md](BOOTSTRAP-PROMPT.md).
-
-В сумме получается метод + инструмент + стартовый набор. Форкните, запустите bootstrap-промпт,
-просмотрите diff, задеплойте.
-
----
-
-## Для кого это
-
-- **Независимые консультанты и advisor'ы**, готовые упаковать свой оффер в продукт
-- **Бутиковые консалтинговые команды** (2–10 человек), которым нужен премиальный лендинг
-  без счёта от агентства
-- **Эксперты в предметной области**, переходящие из наёмного специалиста в advisory-практику
-- **Преподаватели консалтинга** — студенты получают рабочий артефакт вместе с логикой,
-  стоящей за ним
-
-Не подходит основателям SaaS, маркетинговым агентствам и тем, у кого пока нет реального опыта
-делать проекты руками — логика позиционирования в шаблоне заточена под тех, кто действительно
-продаёт advisory-работу.
-
----
-
-## Какую проблему решает
-
-Большинство консалтинговых лендингов проваливаются по одной из трёх причин: читаются как
-корпоративная каша, прячут цены и превращаются в чёрный ящик или пахнут инфопродуктовой
-воронкой. Этот шаблон построен на обратном: чёткое позиционирование, явные тарифы, честная
-дисквалификация. Полное обоснование каждой секции — в [METHODOLOGY.md](METHODOLOGY.md).
-
----
-
-## Почему zero-build React
-
-- **React без билда.** JSX компилится прямо в браузере через Babel Standalone.
-- **Node.js не нужен нигде.** Ни локально, ни на сервере. Никакого `npm install`, никакого бандлера.
-- **Работает на шаред-хостинге за $3/мес.** Hostinger, SiteGround, GoDaddy, cPanel.
-- **Работает и на современных статических хостингах** — Netlify, Vercel, Cloudflare Pages, GitHub Pages.
-- **Уживается рядом с WordPress или PHP** на одном домене. Выбирать не нужно.
-
-Полный разбор компромиссов — в [ARCHITECTURE.md](ARCHITECTURE.md): почему такая архитектура
-имеет смысл в post-AI эпохе, когда она подходит, а когда нет.
-
----
-
-## Быстрый старт (5 минут, без AI)
+## Run
 
 ```bash
-git clone https://github.com/AI-agents-incubator/consulting-landing-template.git
-cd consulting-landing-template
-python3 -m http.server 4000
+npm install
+npm run dev
 ```
 
-Откройте <http://localhost:4000> — увидите полный лендинг с плейсхолдерами.
+Open `http://localhost:3000`.
 
-Правьте `content.en.md` / `content.ru.md`, синкайте в `landing/data.js`, обновляйте страницу,
-смотрите результат. Никакого билда, watcher'а и тулинга.
+## MVP flow
 
----
+1. Landing page
+2. Multi-step quiz
+3. AI analysis via `AIProvider`
+4. Archetype result
+5. Image concept generation via `ImageProvider`
+6. Checkout via `PaymentProvider`
+7. Telegram delivery skeleton via `DeliveryProvider`
 
-## Рекомендуемый путь (10 минут, с AI)
+## Notes
 
-Если у вас установлен [Claude Code CLI](https://docs.claude.com/claude-code):
-
-```bash
-git clone https://github.com/AI-agents-incubator/consulting-landing-template.git
-cd consulting-landing-template
-claude
-```
-
-Затем вставьте промпт из [BOOTSTRAP-PROMPT.md](BOOTSTRAP-PROMPT.md). Claude задаст около 10
-вопросов, перепишет все плейсхолдеры под ваше позиционирование и точно скажет, что вам ещё
-нужно заменить руками (логотип, цвета, фото).
-
-Просмотрите diff. Оставьте то, что нравится. Деплойте.
-
----
-
-## Настройка вручную
-
-1. **Копирайт** — правьте `content.en.md` и/или `content.ru.md`.
-2. **Данные** — синкайте в `landing/data.js` (ветки `ru` и `en` держите в паритете).
-3. **Компоненты** — React лежит в `landing/components.jsx`. Правьте как угодно.
-4. **Тема** — CSS-переменные в начале `index.html` (цвета светлой и тёмной темы).
-5. **Логотип** — иконка-искорка сделана инлайновым SVG в `index.html`.
-
-Подробный разбор того, что делает каждая секция лендинга и зачем, — в
-[METHODOLOGY.md](METHODOLOGY.md).
-
----
-
-## Деплой
-
-Подробно разобраны пять вариантов хостинга: шаред-хостинг, Netlify, Vercel, Cloudflare Pages,
-GitHub Pages. См. [DEPLOY.md](DEPLOY.md).
-
----
-
-## Структура проекта
-
-```
-.
-├── index.html                       # Полный лендинг — главная страница сайта
-├── landing/
-│   ├── data.js                      # window.DATA — весь копирайт, двуязычный
-│   └── components.jsx               # React-компоненты, один файл
-├── content.en.md                    # Источник правды — английский копирайт
-├── content.ru.md                    # Источник правды — русский копирайт
-├── README.md                        # Вы здесь
-├── METHODOLOGY.md                   # Логика позиционирования — «почему» за структурой
-├── BOOTSTRAP-PROMPT.md              # Готовый промпт для AI-кастомизации
-├── DEPLOY.md                        # Пять вариантов хостинга, пошагово
-├── ARCHITECTURE.md                  # Компромиссы zero-build React + PHP
-├── LICENSE                          # MIT
-├── netlify.toml                     # Конфиг Netlify с security-заголовками
-└── .production-credentials.example  # Шаблон для SSH-секретов деплоя (реальный файл в .gitignore)
-```
-
----
-
-## Стек
-
-- React 18 + ReactDOM через unpkg CDN
-- Babel Standalone для транспиляции JSX в браузере
-- Tailwind CSS через CDN
-- Inter через Google Fonts
-
-Ни `package.json`, ни `node_modules`, ни билда, ни CI не требуется.
-
----
-
-## Когда НЕ стоит использовать этот шаблон
-
-- Нужен сильный SEO с первого дня — лендинг рендерится на клиенте; возьмите лучше Astro
-  или Next.js static export.
-- Делаете realtime-фичи (чат, совместная работа) — здесь нет бэкенда.
-- Нужен TypeScript — Babel Standalone не проверяет типы. Придётся перейти на Vite + React
-  локально и потерять преимущество zero-build.
-- В приложении больше ~50 компонентов — компиляция Babel в браузере становится медленной.
-  На этом этапе пора переходить на полноценный билд-тулинг.
-
----
-
-## Об авторе методологии
-
-Этот шаблон и методология позиционирования, в нём заложенная, выросли из практической
-консалтинговой работы **Алексея Крола** — технологического предпринимателя и advisor'а,
-который сначала обкатывает методологию на собственном advisory-оффере, а потом открыто
-делится ей здесь.
-
-- LinkedIn: <https://www.linkedin.com/in/alexkrol/>
-- Личный сайт: <https://alexeykrol.com/>
-- Организация: **AI Agents Incubator**
-
-Методология проверена в бою и теперь открыта для всех, кто строит консалтинговую практику.
-Упоминание автора приветствуется; ссылка в футере — приятный жест, но не обязательна.
-
----
-
-## Лицензия
-
-[MIT](LICENSE). Используйте, форкайте, запускайте, продавайте результат. Атрибуция приветствуется,
-но не обязательна.
+- `MockAIProvider` and `MockImageProvider` keep the vertical slice runnable.
+- `OllamaAIProvider` is ready for `http://localhost:11434` and `gemma3:27b`.
+- `FondyPaymentProvider` is a skeleton and reads configuration from environment variables.

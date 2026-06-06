@@ -1,21 +1,21 @@
-# Credentials & secrets
-.production-credentials
-*.credentials
-.env
-.env.*
-*.pem
-*.key
+# dependencies
+/node_modules
 
-# macOS / Windows / Editor noise
+# next
+/.next
+/out
+
+# env
+.env
+.env.local
+.env.production
+
+# logs
+*.log
+npm-debug.log*
+
+# misc
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-
-# Local dependencies (this template is zero-build, but just in case)
-node_modules/
+.idea
+.vscode
