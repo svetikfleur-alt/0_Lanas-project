@@ -1,0 +1,11 @@
+/*
+  Global stylesheet for the Persona Vision sample project.  This file
+  only imports Tailwind’s layers; the actual project code in Base44
+  includes a comprehensive set of custom CSS variables and utility
+  overrides which are not reproduced here.  You can extend this
+  stylesheet with your own classes as needed.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
