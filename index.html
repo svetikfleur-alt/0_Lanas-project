@@ -3,311 +3,214 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StyleSelf — найди свой стиль с ИИ</title>
+    <title>StyleSelf — AI-гайд для фотосессии</title>
     <meta
       name="description"
-      content="StyleSelf: персональный ИИ-стилист. Подберёт одежду, цвета и образы под ваш типаж, настроение и событие."
+      content="StyleSelf помогает понять свой визуальный стиль до фотосессии и прийти к съёмке с готовым планом, а не чужими референсами."
     />
+    <meta name="theme-color" content="#fcf8f3" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./index.css" />
+    <script defer src="./index.js"></script>
   </head>
   <body>
-    <div class="page">
-      <!-- =================== HERO =================== -->
-      <section class="hero" id="hero">
-        <header class="topbar">
-          <a class="brand" href="#hero">
-            <span class="brand-mark" aria-hidden="true">✦</span>
-            <span class="brand-name">StyleSelf</span>
-          </a>
-          <nav class="lang" aria-label="Language">
-            <a href="#" class="is-active">EN</a>
-            <a href="#">RU</a>
-            <a href="#">KG</a>
-          </nav>
-        </header>
-
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <h1>
-              Поможем найти свой&nbsp;<span class="hl">Стиль</span>
-            </h1>
-            <p class="hero-sub">
-              StyleSelf&nbsp;— это&nbsp;ИИ-стилист, который подбирает
-              одежду, цвета и&nbsp;образы под&nbsp;ваш типаж, настроение
-              и&nbsp;событие.
-            </p>
-            <div class="hero-actions">
-              <a class="btn btn-light" href="#cta">Получить рекомендации</a>
-              <a class="btn btn-outline-light" href="#how">Пройти тест</a>
-            </div>
-          </div>
-
-          <div class="hero-visual" aria-hidden="true">
-            <div class="hero-portrait">
-              <img src="./frames/frame_00_00.0s.jpg" alt="" />
-              <div class="ribbon ribbon-top">★ Топ-стилист</div>
-              <div class="ribbon ribbon-bottom">ИИ-подбор</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =================== HOW IT WORKS =================== -->
-      <section class="how" id="how">
-        <div class="how-head">
-          <p class="eyebrow">Как это работает</p>
-          <h2>Коротко объясним</h2>
-          <p class="how-sub">
-            Пять шагов от&nbsp;знакомства до&nbsp;персонального гардероба.
-          </p>
-        </div>
-
-        <ol class="steps">
-          <li class="step">
-            <div class="step-num">01</div>
-            <div class="step-icon">📋</div>
-            <h3>Бриф</h3>
-            <p>Отвечаете на&nbsp;5&nbsp;вопросов о&nbsp;себе, образе жизни и&nbsp;предпочтениях.</p>
-          </li>
-          <li class="step">
-            <div class="step-num">02</div>
-            <div class="step-icon">🤖</div>
-            <h3>ИИ-анализ</h3>
-            <p>Нейросеть анализирует ваш цветотип, фигуру и&nbsp;стиль жизни.</p>
-          </li>
-          <li class="step">
-            <div class="step-num">03</div>
-            <div class="step-icon">👗</div>
-            <h3>Подбор</h3>
-            <p>Получаете готовые образы с&nbsp;вещами из&nbsp;вашего гардероба.</p>
-          </li>
-          <li class="step">
-            <div class="step-num">04</div>
-            <div class="step-icon">✨</div>
-            <h3>Примерка</h3>
-            <p>Собираете комплекты, обновляете в&nbsp;один клик и&nbsp;получаете обратную связь.</p>
-          </li>
-          <li class="step">
-            <div class="step-num">05</div>
-            <div class="step-icon">📦</div>
-            <h3>Гардероб</h3>
-            <p>Все образы&nbsp;— в&nbsp;приложении, доступны офлайн и&nbsp;в&nbsp;Telegram.</p>
-          </li>
-        </ol>
-      </section>
-
-      <!-- =================== PHILOSOPHY =================== -->
-      <section class="philosophy">
-        <div class="phil-head">
-          <p class="eyebrow eyebrow-dark">Стиль — это...</p>
-          <h2>
-            Стиль — это&nbsp;не&nbsp;про одежду.<br />
-            Это&nbsp;про&nbsp;то, как&nbsp;вы&nbsp;чувствуете себя каждый&nbsp;день.
-          </h2>
-          <p class="phil-sub">
-            Мы&nbsp;не&nbsp;продаём вещи. Мы&nbsp;помогаем вам понять, что&nbsp;уже есть,
-            и&nbsp;собрать это&nbsp;в&nbsp;образы, которые работают на&nbsp;вас.
-          </p>
-        </div>
-
-        <div class="phil-grid">
-          <article class="phil-card">
-            <h3>Что вы получите</h3>
-            <ul>
-              <li>Персональную палитру цветов под&nbsp;ваш цветотип</li>
-              <li>Готовые комплекты на&nbsp;каждый день, работу, вечеринку</li>
-              <li>Список базовых вещей, которые вам действительно нужны</li>
-              <li>Чат с&nbsp;ИИ-стилистом в&nbsp;Telegram&nbsp;24/7</li>
-            </ul>
-          </article>
-          <article class="phil-card">
-            <h3>Для кого это</h3>
-            <ul>
-              <li>Тем, у&nbsp;кого шкаф полон, а&nbsp;надеть нечего</li>
-              <li>Тем, кто&nbsp;хочет выглядеть современно без&nbsp;лишних трат</li>
-              <li>Тем, кто&nbsp;ценит своё время и&nbsp;комфорт</li>
-              <li>Тем, кому важно чувствовать себя уверенно каждый день</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- =================== TELEGRAM DEMO =================== -->
-      <section class="telegram">
-        <div class="tg-grid">
-          <div class="tg-copy">
-            <p class="eyebrow eyebrow-dark">Telegram-бот</p>
-            <h2>Стилист в&nbsp;вашем&nbsp;телефоне</h2>
-            <p>
-              Просто напишите боту, что&nbsp;сегодня за&nbsp;день&nbsp;— встреча,
-              свидание, прогулка. Он&nbsp;подберёт образ за&nbsp;30&nbsp;секунд
-              и&nbsp;пришлёт фото с&nbsp;вещами, которые у&nbsp;вас уже&nbsp;есть.
-            </p>
-            <ul class="tg-bullets">
-              <li>Работает в&nbsp;Telegram и&nbsp;WhatsApp</li>
-              <li>Понимает голосовые и&nbsp;фото</li>
-              <li>Запоминает ваш стиль и&nbsp;предпочтения</li>
-            </ul>
-            <a class="btn btn-dark" href="#cta">Открыть в&nbsp;Telegram</a>
-          </div>
-
-          <div class="tg-phone" aria-hidden="true">
-            <div class="phone-frame">
-              <div class="phone-screen">
-                <div class="tg-msg tg-msg-in">Привет! Что сегодня?</div>
-                <div class="tg-msg tg-msg-out">У&nbsp;меня встреча в&nbsp;18, хочу выглядеть уверенно</div>
-                <div class="tg-msg tg-msg-in">
-                  Вот&nbsp;3&nbsp;образа под&nbsp;ваш цветотип.<br />
-                  Образ&nbsp;1: брючный костюм + белая рубашка
-                </div>
-                <div class="tg-msg tg-msg-card">
-                  <div class="tg-card-img"></div>
-                  <div class="tg-card-cap">Образ&nbsp;1 · casual</div>
-                </div>
-                <div class="tg-msg tg-msg-in">Можно заменить обувь?</div>
-                <div class="tg-msg tg-msg-out">Да, добавьте лоферы</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =================== CATALOG =================== -->
-      <section class="catalog" id="catalog">
-        <div class="cat-photo">
-          <img src="./frames/frame_05_16.0s.jpg" alt="Стиль" />
-          <div class="cat-photo-badge">5</div>
-          <div class="cat-overlay">
-            <div class="cat-overlay-inner">
-              <p class="eyebrow">Каталог</p>
-              <h2>Найдите свой стиль</h2>
-              <p class="cat-sub">
-                Пять базовых эстетик, с&nbsp;которых начинается гардероб.
-                Откройте для&nbsp;себя то, что&nbsp;откликается.
-              </p>
-              <div class="cat-filters" role="tablist">
-                <button class="chip is-active" type="button">Все</button>
-                <button class="chip" type="button">Минимализм</button>
-                <button class="chip" type="button">Классика</button>
-                <button class="chip" type="button">Casual</button>
-                <button class="chip" type="button">Street</button>
-                <button class="chip" type="button">Романтика</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =================== TESTIMONIALS =================== -->
-      <section class="testimonials">
-        <div class="t-card">
-          <div class="t-photo">
-            <img src="./frames/frame_07_24.0s.jpg" alt="Анна" />
-          </div>
-          <div class="t-body">
-            <p class="eyebrow">Отзывы</p>
-            <h2 class="t-h2">Что говорят клиенты</h2>
-            <div class="t-quote">
-              «Я&nbsp;думала, что&nbsp;мой гардероб скучный&nbsp;— оказалось,
-              я&nbsp;просто не&nbsp;умела его&nbsp;собирать. За&nbsp;месяц
-              с&nbsp;ИИ-стилистом я&nbsp;собрала 40&nbsp;образов
-              из&nbsp;вещей, которые уже&nbsp;висели в&nbsp;шкафу.»
-            </div>
-            <div class="t-author">Анна, 28 лет</div>
-            <div class="t-role">маркетолог · Москва</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =================== TEAM =================== -->
-      <section class="team">
-        <div class="team-head">
-          <p class="eyebrow">Создатели</p>
-          <h2>Кто мы такие</h2>
-        </div>
-
-        <div class="team-grid">
-          <article class="team-card">
-            <div class="team-photo">
-              <img src="./frames/frame_01_03.0s.jpg" alt="Аня" />
-            </div>
-            <h3>Аня</h3>
-            <p class="team-role">Стилист, 8 лет в&nbsp;индустрии</p>
-            <p>
-              Собирает гардеробы для&nbsp;публичных людей и&nbsp;ведёт
-              колонку о&nbsp;стиле в&nbsp;Cosmo.
-            </p>
-          </article>
-          <article class="team-card">
-            <div class="team-photo">
-              <img src="./frames/frame_02_06.0s.jpg" alt="Лёша" />
-            </div>
-            <h3>Лёша</h3>
-            <p class="team-role">ИИ-инженер, ex-Yandex</p>
-            <p>
-              Делает так, чтобы&nbsp;ИИ&nbsp;понимал стиль&nbsp;так&nbsp;же,
-              как&nbsp;хороший стилист&nbsp;— на&nbsp;уровне нюансов.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <!-- =================== FAQ + CTA =================== -->
-      <section class="cta" id="cta">
-        <h2>Готовы найти свой&nbsp;стиль?</h2>
-        <p>
-          Пройдите короткий тест&nbsp;— за&nbsp;2&nbsp;минуты мы&nbsp;поймём,
-          что&nbsp;вам подходит, и&nbsp;пришлём первые 5&nbsp;образов.
-        </p>
-        <div class="cta-actions">
-          <a class="btn btn-dark" href="#">Пройти тест</a>
-          <a class="btn btn-outline-dark" href="#">Написать в&nbsp;Telegram</a>
-        </div>
-      </section>
-
-      <!-- =================== FAQ =================== -->
-      <section class="faq">
-        <h2>Частые вопросы</h2>
-        <div class="faq-list">
-          <details>
-            <summary>Сколько стоит?</summary>
-            <p>Бесплатный тест и&nbsp;3&nbsp;первых образа. Дальше&nbsp;— от&nbsp;990&nbsp;₽/мес.</p>
-          </details>
-          <details>
-            <summary>Это приложение?</summary>
-            <p>Мы&nbsp;работаем в&nbsp;Telegram и&nbsp;WhatsApp&nbsp;— не&nbsp;нужно ничего скачивать.</p>
-          </details>
-          <details>
-            <summary>А если я ничего не&nbsp;понимаю в&nbsp;моде?</summary>
-            <p>Это&nbsp;и&nbsp;есть суть сервиса. ИИ&nbsp;задаст простые вопросы и&nbsp;всё&nbsp;сделает&nbsp;сам.</p>
-          </details>
-          <details>
-            <summary>Как это работает технически?</summary>
-            <p>Нейросеть анализирует ваши фото и&nbsp;ответы, подбирает образы и&nbsp;присылает их&nbsp;в&nbsp;чат.</p>
-          </details>
-        </div>
-      </section>
-
-      <!-- =================== FOOTER =================== -->
-      <footer class="footer">
-        <div class="footer-brand">
-          <span class="brand-mark" aria-hidden="true">✦</span>
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="StyleSelf">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+          </span>
           <span class="brand-name">StyleSelf</span>
+        </a>
+
+        <div class="header-actions">
+          <div class="locale-switch" id="localeSwitch" aria-label="Language switcher">
+            <span class="locale-globe" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M2 12h20"></path>
+                <path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"></path>
+              </svg>
+            </span>
+            <button class="locale-pill is-active" data-locale="ru" type="button">RU</button>
+            <button class="locale-pill" data-locale="uk" type="button">UK</button>
+            <button class="locale-pill" data-locale="en" type="button">EN</button>
+            <button class="locale-pill" data-locale="es" type="button">ES</button>
+          </div>
+
+          <a class="header-cta" href="#pricing" data-i18n="site.start"></a>
         </div>
-        <div class="footer-links">
-          <a href="#how">Как работает</a>
-          <a href="#catalog">Каталог</a>
-          <a href="#cta">Telegram</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section section-first">
+        <div class="container">
+          <div class="hero-card reveal reveal-visible">
+            <div class="hero-media" aria-hidden="true"></div>
+            <div class="hero-sheen" aria-hidden="true"></div>
+            <div class="hero-content">
+              <div class="hero-badge" data-i18n="hero.badge"></div>
+              <h1 class="hero-title">
+                <span class="hero-title-accent" data-i18n="hero.titleAccent"></span>
+                <span data-i18n="hero.titleMain"></span>
+              </h1>
+              <p class="hero-copy" data-i18n="hero.text"></p>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="#pricing" data-i18n="hero.primary"></a>
+                <a class="btn btn-secondary" href="#steps" data-i18n="hero.secondary"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section problem">
+        <div class="container">
+          <div class="section-heading section-heading-centered reveal">
+            <h2 class="display-xl" data-i18n="problem.title"></h2>
+            <p class="section-copy section-copy-wide" data-i18n="problem.text"></p>
+          </div>
+          <div class="problem-grid" id="problemGrid"></div>
+        </div>
+      </section>
+
+      <section class="section steps" id="steps">
+        <div class="container">
+          <div class="section-heading section-heading-centered reveal">
+            <p class="eyebrow" data-i18n="steps.eyebrow"></p>
+            <h2 class="display-hero display-wide" data-i18n="steps.title"></h2>
+            <p class="section-copy section-copy-wide" data-i18n="steps.text"></p>
+          </div>
+          <div class="steps-grid" id="stepsGrid"></div>
+        </div>
+      </section>
+
+      <section class="section banner-section">
+        <div class="container">
+          <div class="banner-card reveal">
+            <img src="./assets/banner-crop.jpg" alt="" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section split-section">
+        <div class="container split-layout">
+          <div class="media-card media-card-identity reveal">
+            <img src="./assets/identity-crop.jpg" alt="" />
+          </div>
+          <div class="split-copy reveal">
+            <p class="eyebrow" data-i18n="identity.eyebrow"></p>
+            <h2 class="display-lg" data-i18n="identity.title"></h2>
+            <p class="section-copy" data-i18n="identity.text"></p>
+            <p class="section-copy section-copy-secondary" data-i18n="identity.textSecondary"></p>
+            <ul class="bullet-list" id="identityBullets"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section split-section split-section-author">
+        <div class="container split-layout">
+          <div class="media-card media-card-author reveal">
+            <img src="./assets/author-crop.jpg" alt="" />
+          </div>
+          <div class="split-copy reveal">
+            <p class="eyebrow" data-i18n="author.eyebrow"></p>
+            <h2 class="display-lg" data-i18n="author.title"></h2>
+            <div class="paragraph-stack" id="authorParagraphs"></div>
+            <ul class="check-list" id="authorBullets"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing" id="pricing">
+        <div class="container pricing-container">
+          <div class="section-heading section-heading-centered reveal">
+            <p class="eyebrow" data-i18n="pricing.eyebrow"></p>
+            <h2 class="display-lg" data-i18n="pricing.title"></h2>
+            <p class="section-copy section-copy-wide" data-i18n="pricing.text"></p>
+          </div>
+
+          <article class="pricing-card reveal">
+            <div class="pricing-band" data-i18n="pricing.badge"></div>
+            <div class="pricing-body">
+              <div class="pricing-name" data-i18n="pricing.name"></div>
+              <div class="pricing-subtitle" data-i18n="pricing.subtitle"></div>
+              <div class="pricing-row">
+                <span class="pricing-price" data-i18n="pricing.price"></span>
+                <span class="pricing-old" data-i18n="pricing.oldPrice"></span>
+                <span class="pricing-discount" data-i18n="pricing.discount"></span>
+              </div>
+              <ul class="check-list pricing-features" id="pricingFeatures"></ul>
+              <div class="pricing-actions">
+                <a class="btn btn-primary btn-block" href="#finalCta" data-i18n="pricing.cta"></a>
+                <a
+                  class="btn btn-outline btn-block"
+                  href="https://t.me/+chugfitqfx5iMGQy"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-i18n="pricing.telegram"
+                ></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq">
+        <div class="container faq-container">
+          <div class="section-heading reveal">
+            <h2 class="display-md" data-i18n="faq.title"></h2>
+          </div>
+          <div class="faq-list" id="faqList"></div>
+        </div>
+      </section>
+
+      <section class="section cta-section" id="finalCta">
+        <div class="container">
+          <div class="cta-card reveal">
+            <div class="cta-glow cta-glow-left" aria-hidden="true"></div>
+            <div class="cta-glow cta-glow-right" aria-hidden="true"></div>
+            <div class="cta-inner">
+              <h2 class="display-xl display-light" data-i18n="cta.title"></h2>
+              <p class="cta-copy" data-i18n="cta.text"></p>
+              <a class="btn btn-primary btn-cta" href="#pricing" data-i18n="cta.primary"></a>
+              <p class="cta-meta" data-i18n="cta.meta"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a class="brand brand-footer" href="#top">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+          </span>
+          <span class="brand-name">StyleSelf</span>
+        </a>
+
+        <nav class="footer-links">
+          <a href="#steps" data-i18n="footer.how"></a>
+          <a href="#pricing" data-i18n="footer.access"></a>
+          <a href="https://t.me/+chugfitqfx5iMGQy" target="_blank" rel="noreferrer">Telegram</a>
           <a href="mailto:hello@styleself.app">hello@styleself.app</a>
-        </div>
-        <div class="footer-meta">© 2026 StyleSelf</div>
-      </footer>
-    </div>
+        </nav>
+
+        <div class="footer-copy" data-i18n="footer.copy"></div>
+      </div>
+    </footer>
   </body>
 </html>
