@@ -3,12 +3,10 @@ import { OllamaAIProvider } from "./ollama-ai-provider";
 import { AIProvider } from "./types";
 
 export function getAIProvider(): AIProvider {
-  const provider = process.env.AI_PROVIDER ?? "mock";
-
-  if (provider === "ollama") {
+  if (process.env.AI_PROVIDER === "local") {
     return new OllamaAIProvider(
-      process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
-      process.env.OLLAMA_MODEL ?? "gemma3:27b",
+      process.env.LOCAL_AI_BASE_URL ?? "http://localhost:11434",
+      process.env.LOCAL_AI_MODEL ?? "gemma3:27b",
     );
   }
 

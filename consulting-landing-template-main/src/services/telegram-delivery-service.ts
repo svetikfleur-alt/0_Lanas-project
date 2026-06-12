@@ -1,8 +1,16 @@
 import { getDeliveryProvider } from "@/providers/delivery";
-import { DeliveryPayload, DeliveryReceipt } from "@/types/identity";
+import { getOrder } from "@/services/order-store";
+import { DeliveryReceipt, Locale } from "@/types/identity";
 
-export async function deliverToTelegram(
-  payload: DeliveryPayload,
+export async function prepareTelegramDelivery(
+  orderId: string,
+  locale: Locale,
 ): Promise<DeliveryReceipt> {
-  return getDeliveryProvider().deliver(payload);
+  const order = getOrder(orderId);
+
+  if (!order || order.status !== "paid") {
+    throw new Error("Order is not paid");
+  }
+
+  return getDeliveryProvider().deliver({ orderId, locale });
 }

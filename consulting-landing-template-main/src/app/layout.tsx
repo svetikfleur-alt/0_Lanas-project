@@ -6,19 +6,19 @@ import { StorageScript } from "@/components/storage-script";
 import "./globals.css";
 
 const sans = Manrope({
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   variable: "--font-sans",
 });
 
 const serif = Cormorant_Garamond({
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
   title: "Visual Identity Lab",
-  description: "AI-driven identity discovery and visual positioning MVP.",
+  description: "Guided AI MVP for visual identity discovery, archetypes, image concept generation, checkout and Telegram delivery.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

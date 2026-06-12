@@ -6,12 +6,13 @@
   color-scheme: light;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(182, 106, 60, 0.14), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(95, 111, 82, 0.12), transparent 28%),
-    #f6efe8;
+  background: #fcfaf7;
 }
 
 a {
@@ -21,4 +22,9 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(223, 107, 51, 0.28);
+  color: #1a1512;
 }

@@ -1,13 +1,21 @@
-import { CheckoutSession } from "@/types/identity";
+import { CheckoutSession, Locale, Order } from "@/types/identity";
 
-export type CreateCheckoutPayload = {
+export type CreateCheckoutInput = {
+  locale: Locale;
+  productId: string;
   amount: number;
   currency: string;
-  description: string;
-  email: string;
+  customerEmail?: string;
+};
+
+export type VerifyWebhookResult = {
+  isValid: boolean;
+  orderId?: string;
+  status?: Order["status"];
 };
 
 export interface PaymentProvider {
-  createCheckout(payload: CreateCheckoutPayload): Promise<CheckoutSession>;
-  verifyWebhook(payload: unknown): Promise<{ isValid: boolean; orderId?: string }>;
+  createCheckout(input: CreateCheckoutInput): Promise<CheckoutSession>;
+  verifyWebhook(payload: unknown): Promise<VerifyWebhookResult>;
+  getProviderName(): string;
 }

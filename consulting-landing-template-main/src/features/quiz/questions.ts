@@ -1,63 +1,77 @@
+import { Dictionary } from "@/i18n/dictionaries";
 import { QuizQuestion } from "@/types/identity";
 
-export const quizQuestions: QuizQuestion[] = [
+type QuestionDefinition = {
+  id: string;
+  categoryKey: keyof Dictionary["quiz"]["categories"];
+  promptKey: keyof Dictionary["quiz"]["questions"];
+  options: Array<{
+    value: string;
+    labelKey: string;
+  }>;
+};
+
+const questionDefinitions: QuestionDefinition[] = [
   {
     id: "identity",
-    category: "Identity",
-    prompt: "Who do you feel you are right now?",
+    categoryKey: "identity",
+    promptKey: "identity",
     options: [
-      { value: "visionary", label: "Visionary leader" },
-      { value: "guide", label: "Calm guide" },
-      { value: "artist", label: "Creative soul" },
-      { value: "strategist", label: "Structured strategist" },
+      { value: "authority", labelKey: "authority" },
+      { value: "warm", labelKey: "warm" },
+      { value: "curiosity", labelKey: "curiosity" },
     ],
   },
   {
-    id: "aspirationalIdentity",
-    category: "Aspirational Identity",
-    prompt: "Who do you want to become next?",
+    id: "aspiration",
+    categoryKey: "aspiration",
+    promptKey: "aspiration",
     options: [
-      { value: "queen", label: "Visible authority" },
-      { value: "mentor", label: "Trusted expert" },
-      { value: "creator", label: "Magnetic creator" },
-      { value: "connector", label: "Warm community builder" },
+      { value: "premium", labelKey: "premium" },
+      { value: "guide", labelKey: "guide" },
+      { value: "experimental", labelKey: "experimental" },
     ],
   },
   {
-    id: "visualPreferences",
-    category: "Visual Preferences",
-    prompt: "What visual energy feels closest to you?",
+    id: "visual_preference",
+    categoryKey: "visual",
+    promptKey: "visual_preference",
     options: [
-      { value: "royal", label: "Royal" },
-      { value: "creative", label: "Creative" },
-      { value: "elegant", label: "Elegant" },
-      { value: "minimal", label: "Minimal" },
-      { value: "powerful", label: "Powerful" },
-      { value: "warm", label: "Warm" },
+      { value: "elegant", labelKey: "elegant" },
+      { value: "minimal", labelKey: "minimal" },
+      { value: "bold", labelKey: "bold" },
     ],
   },
   {
-    id: "business",
-    category: "Business",
-    prompt: "Which role best matches your business context?",
+    id: "business_context",
+    categoryKey: "business",
+    promptKey: "business_context",
     options: [
-      { value: "personal", label: "Personal brand" },
-      { value: "expert", label: "Expert" },
-      { value: "coach", label: "Coach" },
-      { value: "entrepreneur", label: "Entrepreneur" },
-      { value: "creator", label: "Creator" },
+      { value: "expert", labelKey: "expert" },
+      { value: "coach", labelKey: "coach" },
+      { value: "creative", labelKey: "creative" },
     ],
   },
   {
-    id: "audienceImpact",
-    category: "Audience Impact",
-    prompt: "What should people feel first when they see you?",
+    id: "audience_impact",
+    categoryKey: "audience",
+    promptKey: "audience_impact",
     options: [
-      { value: "trust", label: "Trust" },
-      { value: "authority", label: "Authority" },
-      { value: "connection", label: "Connection" },
-      { value: "curiosity", label: "Curiosity" },
-      { value: "inspiration", label: "Inspiration" },
+      { value: "trust", labelKey: "trust" },
+      { value: "desire", labelKey: "desire" },
+      { value: "inspiration", labelKey: "inspiration" },
     ],
   },
 ];
+
+export function getQuizQuestions(dictionary: Dictionary): QuizQuestion[] {
+  return questionDefinitions.map((definition) => ({
+    id: definition.id,
+    category: dictionary.quiz.categories[definition.categoryKey],
+    prompt: dictionary.quiz.questions[definition.promptKey],
+    options: definition.options.map((option) => ({
+      value: option.value,
+      label: dictionary.quiz.options[option.labelKey as keyof Dictionary["quiz"]["options"]],
+    })),
+  }));
+}

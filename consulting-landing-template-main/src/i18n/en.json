@@ -1,0 +1,150 @@
+{
+  "common": {
+    "brand": "Visual Identity Lab",
+    "quiz": "Quiz",
+    "result": "Result",
+    "generate": "Generate",
+    "checkout": "Checkout",
+    "language": "Language",
+    "eyebrow": "MVP Slice",
+    "back": "Back",
+    "next": "Next"
+  },
+  "locales": {
+    "ru": "RU",
+    "uk": "UK",
+    "en": "EN",
+    "es": "ES"
+  },
+  "landing": {
+    "eyebrow": "Guided Identity Flow",
+    "title": "Find a visual identity before creating content by instinct",
+    "subtitle": "First working vertical slice: landing, quiz, AI analysis, archetype result, prompt compilation, mock image generation, checkout, and Telegram delivery.",
+    "flowTitle": "Landing → Quiz → AI Analysis → Archetype → Prompt → Image → Checkout → Telegram",
+    "flowBody": "This is not a generic AI photo generator. The product combines self-discovery, archetypal direction, and visual packaging into one paid flow.",
+    "cta": "Start quiz",
+    "secondaryCta": "View result",
+    "featureList": [
+      "Locale-based routing for ru / uk / en / es",
+      "AIProvider with Ollama and Mock fallback",
+      "Archetype markdown content per locale",
+      "PromptCompiler and mock image flow",
+      "Fondy hosted checkout skeleton",
+      "Telegram invite-link delivery skeleton"
+    ],
+    "cards": {
+      "identityTitle": "Identity diagnosis",
+      "identityBody": "A focused quiz captures current image, desired positioning, visual preferences, and intended audience impact.",
+      "archetypeTitle": "Archetype intelligence",
+      "archetypeBody": "The result returns an archetype, strengths, blind spots, and a visual plus business direction.",
+      "deliveryTitle": "Operational delivery",
+      "deliveryBody": "The MVP does not stop at inspiration: after generation the user proceeds through checkout and a prepared Telegram access flow."
+    }
+  },
+  "quiz": {
+    "title": "Identity quiz",
+    "subtitle": "Five steps to produce a usable signal for the AI analysis layer.",
+    "step": "Step",
+    "of": "of",
+    "submit": "Run analysis",
+    "categories": {
+      "identity": "Identity",
+      "aspiration": "Aspirational identity",
+      "visual": "Visual preference",
+      "business": "Business context",
+      "audience": "Audience impact"
+    },
+    "questions": {
+      "identity": "What signal do you currently project most often?",
+      "aspiration": "Which identity do you want to amplify in the next few months?",
+      "visual_preference": "Which visual direction feels closest to you?",
+      "business_context": "In what professional context do you most often show up?",
+      "audience_impact": "What effect do you want to create for your audience?"
+    },
+    "options": {
+      "authority": "Authority and status",
+      "warm": "Warmth and trust",
+      "curiosity": "Freshness and curiosity",
+      "premium": "Premium leadership",
+      "guide": "Wise guidance",
+      "experimental": "Bold authored expression",
+      "elegant": "Elegant and composed",
+      "minimal": "Calm and minimal",
+      "bold": "Bold and unconventional",
+      "expert": "Expert / strategist",
+      "coach": "Coach / guide",
+      "creative": "Creator / product author",
+      "trust": "Trust",
+      "desire": "Desire to work with me",
+      "inspiration": "Inspiration and momentum"
+    }
+  },
+  "result": {
+    "title": "Archetype result",
+    "subtitle": "The AI layer maps quiz answers into a clear archetypal direction.",
+    "emptyTitle": "The quiz comes first",
+    "emptyBody": "Start with the questionnaire so the service has enough signal to produce an analysis.",
+    "backToQuiz": "Go to quiz",
+    "strengths": "Strengths",
+    "blindSpots": "Blind spots",
+    "visualDirection": "Visual direction",
+    "businessDirection": "Business direction",
+    "archetypeGuide": "Archetype content",
+    "visualRecommendations": "Visual recommendations",
+    "businessRecommendations": "Business and content recommendations",
+    "promptIdeas": "Prompt ideas",
+    "cta": "Continue to generation"
+  },
+  "generate": {
+    "title": "Prompt compilation and image concept",
+    "subtitle": "Compile a prompt from the AI analysis and archetype content, then render the mock image provider flow.",
+    "emptyTitle": "There is nothing to generate yet",
+    "emptyBody": "A compiled prompt needs a completed analysis first.",
+    "backToResult": "Back to result",
+    "compile": "Compile prompt and generate image",
+    "generating": "Generating...",
+    "generate": "Generate again",
+    "promptDetails": "Prompt details",
+    "subject": "Subject",
+    "style": "Style",
+    "clothing": "Clothing",
+    "environment": "Environment",
+    "lighting": "Lighting",
+    "emotion": "Emotion",
+    "composition": "Composition",
+    "negativePrompt": "Negative prompt",
+    "ctaCheckout": "Continue to checkout"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "One product, one payment, hosted checkout redirect, and no card collection on our site.",
+    "emptyTitle": "Generate the concept first",
+    "emptyBody": "Build the prompt and mock image before moving to checkout.",
+    "backToGenerate": "Back to generation",
+    "productTitle": "Visual Identity Lab MVP Package",
+    "productDescription": "Archetype analysis, prompt compilation, AI image concept, and Telegram access preparation.",
+    "priceLabel": "Price",
+    "providerLabel": "Provider",
+    "emailLabel": "Customer email",
+    "emailPlaceholder": "you@example.com",
+    "pay": "Go to hosted checkout",
+    "redirecting": "Redirecting..."
+  },
+  "success": {
+    "title": "Payment success",
+    "subtitle": "Telegram delivery is shown only after server-side payment confirmation.",
+    "thanks": "Thank you, your order is in",
+    "description": "After payment confirmation the server prepares Telegram access. In this MVP the success state is simulated through the hosted checkout sandbox route.",
+    "loadingDelivery": "Checking Telegram delivery...",
+    "accessReady": "Access is ready. You can open the Telegram invite link.",
+    "accessPending": "A Telegram invite appears only when the order status is paid and the invite link is configured in env.",
+    "accessButton": "Open Telegram",
+    "backGenerate": "Back to generation"
+  },
+  "cancel": {
+    "title": "Payment cancelled",
+    "subtitle": "The user can return to checkout without breaking the vertical slice flow.",
+    "body": "The payment was cancelled or not completed. You can return to checkout and retry the hosted redirect.",
+    "backToCheckout": "Back to checkout"
+  }
+}

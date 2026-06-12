@@ -1,3 +1,7 @@
+export const locales = ["ru", "uk", "en", "es"] as const;
+
+export type Locale = (typeof locales)[number];
+
 export type ArchetypeKey = "queen" | "mentor" | "creator";
 
 export type QuizQuestionOption = {
@@ -16,9 +20,12 @@ export type QuizAnswers = Record<string, string>;
 
 export type IdentityAnalysis = {
   archetype: ArchetypeKey;
+  title: string;
+  summary: string;
   strengths: string[];
   blindSpots: string[];
-  visualDirection: string[];
+  visualDirection: string;
+  businessDirection: string;
   imageBrief: string;
 };
 
@@ -27,9 +34,10 @@ export type ArchetypeContent = {
   title: string;
   description: string;
   strengths: string[];
-  weaknesses: string[];
+  blindSpots: string[];
   visualRecommendations: string[];
   businessRecommendations: string[];
+  promptIdeas: string[];
 };
 
 export type PromptCompilerOutput = {
@@ -41,6 +49,7 @@ export type PromptCompilerOutput = {
   emotion: string;
   composition: string;
   fullPrompt: string;
+  negativePrompt?: string;
 };
 
 export type GeneratedImage = {
@@ -48,6 +57,21 @@ export type GeneratedImage = {
   title: string;
   url: string;
   prompt: string;
+};
+
+export type OrderStatus = "pending" | "paid" | "failed" | "cancelled";
+
+export type Order = {
+  orderId: string;
+  productId: string;
+  amount: number;
+  currency: string;
+  customerEmail?: string;
+  provider: string;
+  status: OrderStatus;
+  createdAt: string;
+  paidAt?: string;
+  locale: Locale;
 };
 
 export type CheckoutSession = {
@@ -58,13 +82,12 @@ export type CheckoutSession = {
 
 export type DeliveryPayload = {
   orderId: string;
-  customerEmail: string;
-  archetype: ArchetypeKey;
-  imageUrls: string[];
+  locale: Locale;
 };
 
 export type DeliveryReceipt = {
   channel: string;
-  inviteLink: string;
-  accessToken: string;
+  inviteLink?: string;
+  accessToken?: string;
+  message: string;
 };

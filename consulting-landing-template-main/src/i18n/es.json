@@ -1,0 +1,150 @@
+{
+  "common": {
+    "brand": "Visual Identity Lab",
+    "quiz": "Quiz",
+    "result": "Resultado",
+    "generate": "Generar",
+    "checkout": "Pago",
+    "language": "Idioma",
+    "eyebrow": "MVP Slice",
+    "back": "Atrás",
+    "next": "Siguiente"
+  },
+  "locales": {
+    "ru": "RU",
+    "uk": "UK",
+    "en": "EN",
+    "es": "ES"
+  },
+  "landing": {
+    "eyebrow": "Guided Identity Flow",
+    "title": "Encuentra una identidad visual antes de crear contenido al azar",
+    "subtitle": "Primer vertical slice funcional: landing, quiz, análisis con IA, resultado de arquetipo, prompt compilation, mock image generation, checkout y entrega por Telegram.",
+    "flowTitle": "Landing → Quiz → AI Analysis → Archetype → Prompt → Image → Checkout → Telegram",
+    "flowBody": "Esto no es un generador genérico de fotos con IA. El producto une autodescubrimiento, dirección arquetípica y empaque visual en un flujo pagado.",
+    "cta": "Empezar quiz",
+    "secondaryCta": "Ver resultado",
+    "featureList": [
+      "Locale-based routing para ru / uk / en / es",
+      "AIProvider con Ollama y Mock fallback",
+      "Contenido de arquetipos en markdown por locale",
+      "PromptCompiler y mock image flow",
+      "Fondy hosted checkout skeleton",
+      "Telegram invite-link delivery skeleton"
+    ],
+    "cards": {
+      "identityTitle": "Diagnóstico de identidad",
+      "identityBody": "Un quiz enfocado captura imagen actual, posicionamiento deseado, preferencias visuales e impacto esperado.",
+      "archetypeTitle": "Inteligencia arquetípica",
+      "archetypeBody": "El resultado devuelve un arquetipo, fortalezas, blind spots y una dirección visual y de negocio.",
+      "deliveryTitle": "Entrega operativa",
+      "deliveryBody": "El MVP no se detiene en la inspiración: después de generar, la usuaria pasa por checkout y un flujo de acceso por Telegram."
+    }
+  },
+  "quiz": {
+    "title": "Quiz de identidad",
+    "subtitle": "Cinco pasos para obtener una señal útil para la capa de análisis con IA.",
+    "step": "Paso",
+    "of": "de",
+    "submit": "Lanzar análisis",
+    "categories": {
+      "identity": "Identidad",
+      "aspiration": "Identidad aspiracional",
+      "visual": "Preferencia visual",
+      "business": "Contexto profesional",
+      "audience": "Impacto en la audiencia"
+    },
+    "questions": {
+      "identity": "¿Qué señal proyectas con más frecuencia hoy?",
+      "aspiration": "¿Qué identidad quieres amplificar en los próximos meses?",
+      "visual_preference": "¿Qué dirección visual se siente más cercana a ti?",
+      "business_context": "¿En qué contexto profesional apareces con más frecuencia?",
+      "audience_impact": "¿Qué efecto quieres producir en tu audiencia?"
+    },
+    "options": {
+      "authority": "Autoridad y estatus",
+      "warm": "Calidez y confianza",
+      "curiosity": "Frescura y curiosidad",
+      "premium": "Liderazgo premium",
+      "guide": "Guía sabia",
+      "experimental": "Expresión audaz de autoría",
+      "elegant": "Elegante y contenida",
+      "minimal": "Calma y minimalista",
+      "bold": "Intensa y poco convencional",
+      "expert": "Experta / estratega",
+      "coach": "Coach / guía",
+      "creative": "Creadora / autora del producto",
+      "trust": "Confianza",
+      "desire": "Deseo de trabajar conmigo",
+      "inspiration": "Inspiración e impulso"
+    }
+  },
+  "result": {
+    "title": "Resultado arquetípico",
+    "subtitle": "La capa de IA convierte las respuestas del quiz en una dirección arquetípica clara.",
+    "emptyTitle": "Primero va el quiz",
+    "emptyBody": "Empieza por el cuestionario para que el servicio tenga suficiente señal para analizar.",
+    "backToQuiz": "Ir al quiz",
+    "strengths": "Fortalezas",
+    "blindSpots": "Blind spots",
+    "visualDirection": "Dirección visual",
+    "businessDirection": "Dirección de negocio",
+    "archetypeGuide": "Contenido del arquetipo",
+    "visualRecommendations": "Recomendaciones visuales",
+    "businessRecommendations": "Recomendaciones para contenido y negocio",
+    "promptIdeas": "Ideas de prompt",
+    "cta": "Continuar a generación"
+  },
+  "generate": {
+    "title": "Compilación de prompt e image concept",
+    "subtitle": "Compila un prompt desde el análisis y el contenido del arquetipo, luego muestra el flujo del mock image provider.",
+    "emptyTitle": "Todavía no hay nada que generar",
+    "emptyBody": "Un prompt compilado necesita un análisis completado primero.",
+    "backToResult": "Volver al resultado",
+    "compile": "Compilar prompt y generar imagen",
+    "generating": "Generando...",
+    "generate": "Generar de nuevo",
+    "promptDetails": "Detalles del prompt",
+    "subject": "Subject",
+    "style": "Style",
+    "clothing": "Clothing",
+    "environment": "Environment",
+    "lighting": "Lighting",
+    "emotion": "Emotion",
+    "composition": "Composition",
+    "negativePrompt": "Negative prompt",
+    "ctaCheckout": "Continuar al pago"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Un producto, un pago, hosted checkout redirect y sin recopilar tarjetas en nuestro sitio.",
+    "emptyTitle": "Genera primero el concepto",
+    "emptyBody": "Construye el prompt y la imagen mock antes de pasar al checkout.",
+    "backToGenerate": "Volver a generación",
+    "productTitle": "Visual Identity Lab MVP Package",
+    "productDescription": "Análisis arquetípico, prompt compilation, AI image concept y preparación de acceso por Telegram.",
+    "priceLabel": "Precio",
+    "providerLabel": "Proveedor",
+    "emailLabel": "Email del cliente",
+    "emailPlaceholder": "you@example.com",
+    "pay": "Ir a hosted checkout",
+    "redirecting": "Redirigiendo..."
+  },
+  "success": {
+    "title": "Pago confirmado",
+    "subtitle": "La entrega por Telegram se muestra solo después de la confirmación del pago en el servidor.",
+    "thanks": "Gracias, tu pedido fue recibido",
+    "description": "Después de la confirmación del pago el servidor prepara el acceso por Telegram. En este MVP el éxito se simula mediante la ruta sandbox de hosted checkout.",
+    "loadingDelivery": "Comprobando entrega por Telegram...",
+    "accessReady": "El acceso está listo. Puedes abrir el enlace de invitación de Telegram.",
+    "accessPending": "La invitación de Telegram aparece solo cuando el pedido está pagado y el enlace está configurado en env.",
+    "accessButton": "Abrir Telegram",
+    "backGenerate": "Volver a generación"
+  },
+  "cancel": {
+    "title": "Pago cancelado",
+    "subtitle": "La usuaria puede volver al checkout sin romper el flujo vertical slice.",
+    "body": "El pago fue cancelado o no se completó. Puedes volver al checkout y repetir el hosted redirect.",
+    "backToCheckout": "Volver al pago"
+  }
+}

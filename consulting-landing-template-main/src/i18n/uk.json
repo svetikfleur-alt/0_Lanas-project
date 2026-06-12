@@ -1,0 +1,150 @@
+{
+  "common": {
+    "brand": "Visual Identity Lab",
+    "quiz": "Квіз",
+    "result": "Результат",
+    "generate": "Генерація",
+    "checkout": "Оплата",
+    "language": "Мова",
+    "eyebrow": "MVP Slice",
+    "back": "Назад",
+    "next": "Далі"
+  },
+  "locales": {
+    "ru": "RU",
+    "uk": "UK",
+    "en": "EN",
+    "es": "ES"
+  },
+  "landing": {
+    "eyebrow": "Guided Identity Flow",
+    "title": "Знайди візуальну ідентичність до того, як робити контент навмання",
+    "subtitle": "Перший робочий vertical slice: лендинг, квіз, AI-аналіз, архетип, prompt compilation, mock image generation, checkout і Telegram delivery.",
+    "flowTitle": "Landing → Quiz → AI Analysis → Archetype → Prompt → Image → Checkout → Telegram",
+    "flowBody": "Це не generic AI photo generator. Продукт збирає самодіагностику, архетиповий вектор і візуальне пакування в один оплачуваний шлях.",
+    "cta": "Почати квіз",
+    "secondaryCta": "Подивитися результат",
+    "featureList": [
+      "Locale-based routing для ru / uk / en / es",
+      "AIProvider з Ollama і Mock fallback",
+      "Archetype content у markdown за локалями",
+      "PromptCompiler і mock image flow",
+      "Fondy hosted checkout skeleton",
+      "Telegram invite-link delivery skeleton"
+    ],
+    "cards": {
+      "identityTitle": "Діагностика ідентичності",
+      "identityBody": "Короткий квіз фіксує поточний образ, бажане позиціонування, візуальні вподобання та вплив на аудиторію.",
+      "archetypeTitle": "Архетиповий розбір",
+      "archetypeBody": "Результат видає архетип, сильні сторони, blind spots і вектор візуального та бізнес-пакування.",
+      "deliveryTitle": "Доставка результату",
+      "deliveryBody": "MVP не обривається на натхненні: після генерації користувач проходить checkout і отримує підготовлений Telegram access flow."
+    }
+  },
+  "quiz": {
+    "title": "Квіз ідентичності",
+    "subtitle": "П'ять кроків, щоб зібрати базовий сигнал для AI-аналізу.",
+    "step": "Крок",
+    "of": "з",
+    "submit": "Запустити аналіз",
+    "categories": {
+      "identity": "Ідентичність",
+      "aspiration": "Бажаний образ",
+      "visual": "Візуальний смак",
+      "business": "Бізнес-контекст",
+      "audience": "Вплив на аудиторію"
+    },
+    "questions": {
+      "identity": "Який сигнал ви зараз найчастіше транслюєте?",
+      "aspiration": "Який образ ви хочете підсилити найближчими місяцями?",
+      "visual_preference": "Яка візуальна подача вам ближча?",
+      "business_context": "У якому професійному контексті ви найчастіше проявляєтесь?",
+      "audience_impact": "Яке враження ви хочете залишати в аудиторії?"
+    },
+    "options": {
+      "authority": "Авторитет і статус",
+      "warm": "Тепло й довіра",
+      "curiosity": "Свіжість і цікавість",
+      "premium": "Преміальне лідерство",
+      "guide": "Мудрий супровід",
+      "experimental": "Смілива авторська подача",
+      "elegant": "Елегантно й зібрано",
+      "minimal": "Спокійно й мінімалістично",
+      "bold": "Яскраво й нестандартно",
+      "expert": "Експерт / стратег",
+      "coach": "Наставниця / провідниця",
+      "creative": "Креаторка / авторка продукту",
+      "trust": "Довіра",
+      "desire": "Бажання працювати зі мною",
+      "inspiration": "Натхнення й імпульс"
+    }
+  },
+  "result": {
+    "title": "Архетиповий результат",
+    "subtitle": "AI-аналіз поєднує відповіді квізу з архетиповим напрямом.",
+    "emptyTitle": "Спочатку потрібен квіз",
+    "emptyBody": "Для результату спочатку пройдіть опитування, щоб сервіс зібрав базу для аналізу.",
+    "backToQuiz": "Перейти до квізу",
+    "strengths": "Сильні сторони",
+    "blindSpots": "Blind spots",
+    "visualDirection": "Візуальний вектор",
+    "businessDirection": "Бізнес-вектор",
+    "archetypeGuide": "Контент архетипу",
+    "visualRecommendations": "Візуальні рекомендації",
+    "businessRecommendations": "Рекомендації для контенту та бізнесу",
+    "promptIdeas": "Ідеї для промптів",
+    "cta": "Перейти до генерації"
+  },
+  "generate": {
+    "title": "Компіляція промпта та image concept",
+    "subtitle": "Збираємо prompt з AI-аналізу та archetype content, а потім показуємо mock image provider flow.",
+    "emptyTitle": "Немає даних для генерації",
+    "emptyBody": "Спочатку потрібен результат аналізу, інакше prompt compile нема з чого збирати.",
+    "backToResult": "Повернутися до результату",
+    "compile": "Скомпілювати промпт і згенерувати",
+    "generating": "Генерація...",
+    "generate": "Згенерувати знову",
+    "promptDetails": "Деталі промпта",
+    "subject": "Subject",
+    "style": "Style",
+    "clothing": "Clothing",
+    "environment": "Environment",
+    "lighting": "Lighting",
+    "emotion": "Emotion",
+    "composition": "Composition",
+    "negativePrompt": "Negative prompt",
+    "ctaCheckout": "Продовжити до оплати"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Один продукт, один платіж, hosted checkout redirect без введення картки на сайті.",
+    "emptyTitle": "Спочатку потрібен image concept",
+    "emptyBody": "Перш ніж іти до оплати, зберіть prompt і mock image на попередньому кроці.",
+    "backToGenerate": "Повернутися до генерації",
+    "productTitle": "Visual Identity Lab MVP Package",
+    "productDescription": "Архетиповий розбір, prompt compilation, AI image concept і підготовка доступу через Telegram.",
+    "priceLabel": "Вартість",
+    "providerLabel": "Провайдер",
+    "emailLabel": "Email клієнта",
+    "emailPlaceholder": "you@example.com",
+    "pay": "Перейти до hosted checkout",
+    "redirecting": "Перенаправлення..."
+  },
+  "success": {
+    "title": "Оплату підтверджено",
+    "subtitle": "Telegram delivery показується лише після серверного підтвердження замовлення.",
+    "thanks": "Дякуємо, ваше замовлення прийнято",
+    "description": "Після підтвердження оплати сервер готує Telegram access. У цьому MVP успіх емуляється через hosted checkout sandbox route.",
+    "loadingDelivery": "Перевіряємо Telegram delivery...",
+    "accessReady": "Доступ готовий. Можна відкрити Telegram invite link.",
+    "accessPending": "Telegram invite з'явиться лише коли замовлення має статус paid і посилання налаштоване в env.",
+    "accessButton": "Відкрити Telegram",
+    "backGenerate": "Повернутися до генерації"
+  },
+  "cancel": {
+    "title": "Оплату скасовано",
+    "subtitle": "Користувач може повернутися до checkout без втрати vertical slice flow.",
+    "body": "Платіж було скасовано або не завершено. Можна повернутися до checkout і повторити hosted redirect.",
+    "backToCheckout": "Повернутися до оплати"
+  }
+}

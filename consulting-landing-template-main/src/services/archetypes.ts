@@ -1,42 +1,62 @@
-import fs from "fs";
-import path from "path";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
-import { ArchetypeContent, ArchetypeKey } from "@/types/identity";
+import { ArchetypeContent, ArchetypeKey, Locale } from "@/types/identity";
 
-function parseList(value: string): string[] {
+type SectionMap = {
+  [key: string]: string[];
+};
+
+function parseSectionList(value: string | undefined): string[] {
+  if (!value) {
+    return [];
+  }
+
   return value
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line.startsWith("- "))
-    .map((line) => line.replace("- ", "").trim());
+    .map((line) => line.slice(2).trim());
 }
 
-function parseArchetypeFile(fileContent: string, key: ArchetypeKey): ArchetypeContent {
-  const blocks = fileContent.split(/\n(?=[a-z_]+:)/g);
-  const map = new Map<string, string>();
+function parseContent(raw: string, key: ArchetypeKey): ArchetypeContent {
+  const [titleLine, ...restLines] = raw.trim().split("\n");
+  const title = titleLine.replace(/^#\s*/, "").trim();
+  const rest = restLines.join("\n");
+  const parts = rest.split("\n## ");
+  const description = parts[0].trim();
+  const sections: SectionMap = {};
 
-  for (const block of blocks) {
-    const [head, ...rest] = block.split("\n");
-    const separatorIndex = head.indexOf(":");
-    const sectionKey = head.slice(0, separatorIndex);
-    const initialValue = head.slice(separatorIndex + 1).trim();
-    const body = [initialValue, ...rest].join("\n").trim();
-    map.set(sectionKey, body);
+  for (const chunk of parts.slice(1)) {
+    const [headingLine, ...contentLines] = chunk.split("\n");
+    sections[headingLine.trim().toLowerCase()] = contentLines;
   }
 
   return {
     key,
-    title: map.get("title") ?? key,
-    description: map.get("description") ?? "",
-    strengths: parseList(map.get("strengths") ?? ""),
-    weaknesses: parseList(map.get("weaknesses") ?? ""),
-    visualRecommendations: parseList(map.get("visual_recommendations") ?? ""),
-    businessRecommendations: parseList(map.get("business_recommendations") ?? ""),
+    title,
+    description,
+    strengths: parseSectionList(sections.strengths?.join("\n")),
+    blindSpots: parseSectionList(sections["blind spots"]?.join("\n")),
+    visualRecommendations: parseSectionList(sections["visual recommendations"]?.join("\n")),
+    businessRecommendations: parseSectionList(sections["business recommendations"]?.join("\n")),
+    promptIdeas: parseSectionList(sections["prompt ideas"]?.join("\n")),
   };
 }
 
-export function getArchetypeContent(key: ArchetypeKey): ArchetypeContent {
-  const filePath = path.join(process.cwd(), "src", "content", `${key}.md`);
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  return parseArchetypeFile(fileContent, key);
+export async function getArchetypeContent(
+  locale: Locale,
+  key: ArchetypeKey,
+): Promise<ArchetypeContent> {
+  const filePath = path.join(process.cwd(), "src", "content", locale, `${key}.md`);
+  const raw = await readFile(filePath, "utf8");
+  return parseContent(raw, key);
+}
+
+export async function getAllArchetypes(locale: Locale): Promise<ArchetypeContent[]> {
+  return Promise.all([
+    getArchetypeContent(locale, "queen"),
+    getArchetypeContent(locale, "mentor"),
+    getArchetypeContent(locale, "creator"),
+  ]);
 }

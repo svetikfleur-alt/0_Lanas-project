@@ -1,14 +1,16 @@
 import { getAIProvider } from "@/providers/ai";
 import { MockAIProvider } from "@/providers/ai/mock-ai-provider";
-import { IdentityAnalysis, QuizAnswers } from "@/types/identity";
+import { IdentityAnalysis, Locale, QuizAnswers } from "@/types/identity";
 
-export async function analyzeIdentity(answers: QuizAnswers): Promise<IdentityAnalysis> {
+export async function analyzeIdentity(
+  answers: QuizAnswers,
+  locale: Locale,
+): Promise<IdentityAnalysis> {
   const provider = getAIProvider();
 
   try {
-    return await provider.analyzeIdentity(answers);
+    return await provider.analyzeIdentity({ answers, locale });
   } catch {
-    const fallbackProvider = new MockAIProvider();
-    return fallbackProvider.analyzeIdentity(answers);
+    return new MockAIProvider().analyzeIdentity({ answers, locale });
   }
 }

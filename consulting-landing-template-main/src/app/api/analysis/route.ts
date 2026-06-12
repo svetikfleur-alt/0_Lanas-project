@@ -1,19 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { analyzeIdentity } from "@/services/analysis-service";
-import { generateIdentityImages } from "@/services/image-generation-service";
-import { compilePrompt } from "@/services/prompt-compiler";
-import { IdentityAnalysis, QuizAnswers } from "@/types/identity";
+import { isLocale } from "@/i18n/config";
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as { answers: QuizAnswers };
-  const analysis = await analyzeIdentity(body.answers);
+  const body = await request.json();
+  const locale = isLocale(body.locale) ? body.locale : "ru";
+  const analysis = await analyzeIdentity(body.answers ?? {}, locale);
   return NextResponse.json(analysis);
-}
-
-export async function PUT(request: NextRequest) {
-  const body = (await request.json()) as { analysis: IdentityAnalysis };
-  const prompt = compilePrompt(body.analysis);
-  const images = await generateIdentityImages(prompt);
-  return NextResponse.json(images);
 }

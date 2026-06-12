@@ -1,0 +1,150 @@
+{
+  "common": {
+    "brand": "Visual Identity Lab",
+    "quiz": "Квиз",
+    "result": "Результат",
+    "generate": "Генерация",
+    "checkout": "Оплата",
+    "language": "Язык",
+    "eyebrow": "MVP Slice",
+    "back": "Назад",
+    "next": "Далее"
+  },
+  "locales": {
+    "ru": "RU",
+    "uk": "UK",
+    "en": "EN",
+    "es": "ES"
+  },
+  "landing": {
+    "eyebrow": "Guided Identity Flow",
+    "title": "Найди визуальную идентичность до того, как делать контент наугад",
+    "subtitle": "Первый рабочий vertical slice: лендинг, квиз, AI-анализ, архетип, prompt compilation, mock image generation, checkout и Telegram delivery.",
+    "flowTitle": "Landing → Quiz → AI Analysis → Archetype → Prompt → Image → Checkout → Telegram",
+    "flowBody": "Это не generic AI photo generator. Продукт собирает самодиагностику, архетипический вектор и визуальную упаковку в один оплачиваемый путь.",
+    "cta": "Начать квиз",
+    "secondaryCta": "Посмотреть результат",
+    "featureList": [
+      "Locale-based routing для ru / uk / en / es",
+      "AIProvider с Ollama и Mock fallback",
+      "Archetype content в markdown по локалям",
+      "PromptCompiler и mock image flow",
+      "Fondy hosted checkout skeleton",
+      "Telegram invite-link delivery skeleton"
+    ],
+    "cards": {
+      "identityTitle": "Диагностика идентичности",
+      "identityBody": "Короткий квиз фиксирует текущий образ, желаемое позиционирование, визуальные предпочтения и влияние на аудиторию.",
+      "archetypeTitle": "Архетипический разбор",
+      "archetypeBody": "Результат выдает архетип, сильные стороны, blind spots и вектор визуальной и бизнес-упаковки.",
+      "deliveryTitle": "Доставка результата",
+      "deliveryBody": "MVP не обрывается на вдохновении: после генерации пользователь проходит checkout и получает подготовленный Telegram access flow."
+    }
+  },
+  "quiz": {
+    "title": "Квиз идентичности",
+    "subtitle": "Пять шагов, чтобы собрать базовый сигнал для AI-анализа.",
+    "step": "Шаг",
+    "of": "из",
+    "submit": "Запустить анализ",
+    "categories": {
+      "identity": "Идентичность",
+      "aspiration": "Желаемый образ",
+      "visual": "Визуальный вкус",
+      "business": "Бизнес-контекст",
+      "audience": "Влияние на аудиторию"
+    },
+    "questions": {
+      "identity": "Какой сигнал вы сейчас чаще всего транслируете?",
+      "aspiration": "Какой образ вы хотите усилить в ближайшие месяцы?",
+      "visual_preference": "Какая визуальная подача ощущается вам ближе?",
+      "business_context": "В каком профессиональном контексте вы чаще всего проявляетесь?",
+      "audience_impact": "Какое впечатление вы хотите оставлять у аудитории?"
+    },
+    "options": {
+      "authority": "Авторитет и статус",
+      "warm": "Тепло и доверие",
+      "curiosity": "Свежесть и любопытство",
+      "premium": "Премиальное лидерство",
+      "guide": "Мудрое сопровождение",
+      "experimental": "Смелая авторская подача",
+      "elegant": "Элегантно и собранно",
+      "minimal": "Спокойно и минималистично",
+      "bold": "Ярко и нестандартно",
+      "expert": "Эксперт / стратег",
+      "coach": "Наставник / проводник",
+      "creative": "Креатор / автор продукта",
+      "trust": "Доверие",
+      "desire": "Желание работать со мной",
+      "inspiration": "Вдохновение и импульс"
+    }
+  },
+  "result": {
+    "title": "Архетипический результат",
+    "subtitle": "AI-анализ соединяет ответы квиза с архетипическим направлением.",
+    "emptyTitle": "Сначала нужен квиз",
+    "emptyBody": "Для результата сначала пройдите опрос, чтобы сервис собрал базу для анализа.",
+    "backToQuiz": "Перейти к квизу",
+    "strengths": "Сильные стороны",
+    "blindSpots": "Blind spots",
+    "visualDirection": "Визуальный вектор",
+    "businessDirection": "Бизнес-вектор",
+    "archetypeGuide": "Контент архетипа",
+    "visualRecommendations": "Визуальные рекомендации",
+    "businessRecommendations": "Рекомендации для контента и бизнеса",
+    "promptIdeas": "Идеи для промптов",
+    "cta": "Перейти к генерации"
+  },
+  "generate": {
+    "title": "Компиляция промпта и image concept",
+    "subtitle": "Собираем prompt из AI-анализа и archetype content, затем показываем mock image provider flow.",
+    "emptyTitle": "Нет данных для генерации",
+    "emptyBody": "Сначала нужен результат анализа, иначе prompt compile не из чего собирать.",
+    "backToResult": "Вернуться к результату",
+    "compile": "Скомпилировать промпт и сгенерировать",
+    "generating": "Генерация...",
+    "generate": "Сгенерировать заново",
+    "promptDetails": "Детали промпта",
+    "subject": "Subject",
+    "style": "Style",
+    "clothing": "Clothing",
+    "environment": "Environment",
+    "lighting": "Lighting",
+    "emotion": "Emotion",
+    "composition": "Composition",
+    "negativePrompt": "Negative prompt",
+    "ctaCheckout": "Продолжить к оплате"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Один продукт, один платеж, hosted checkout redirect без ввода карты на сайте.",
+    "emptyTitle": "Сначала нужен image concept",
+    "emptyBody": "Прежде чем идти к оплате, соберите prompt и mock image на предыдущем шаге.",
+    "backToGenerate": "Вернуться к генерации",
+    "productTitle": "Visual Identity Lab MVP Package",
+    "productDescription": "Архетипический разбор, prompt compilation, AI image concept и подготовка доступа через Telegram.",
+    "priceLabel": "Стоимость",
+    "providerLabel": "Провайдер",
+    "emailLabel": "Email клиента",
+    "emailPlaceholder": "you@example.com",
+    "pay": "Перейти к hosted checkout",
+    "redirecting": "Перенаправление..."
+  },
+  "success": {
+    "title": "Оплата подтверждена",
+    "subtitle": "Telegram delivery показывается только после серверного подтверждения заказа.",
+    "thanks": "Спасибо, ваш заказ принят",
+    "description": "После подтверждения оплаты сервер готовит Telegram access. В этом MVP успех эмулируется через hosted checkout sandbox route.",
+    "loadingDelivery": "Проверяем Telegram delivery...",
+    "accessReady": "Доступ готов. Можно открыть Telegram invite link.",
+    "accessPending": "Telegram invite появится только когда заказ находится в статусе paid и ссылка настроена в env.",
+    "accessButton": "Открыть Telegram",
+    "backGenerate": "Вернуться к генерации"
+  },
+  "cancel": {
+    "title": "Оплата отменена",
+    "subtitle": "Пользователь может вернуться к checkout без потери вертикального slice flow.",
+    "body": "Платеж был отменен или не завершен. Можно вернуться к checkout и повторить hosted redirect.",
+    "backToCheckout": "Вернуться к оплате"
+  }
+}

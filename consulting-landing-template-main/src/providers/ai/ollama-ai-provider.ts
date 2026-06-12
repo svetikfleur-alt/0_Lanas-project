@@ -1,6 +1,6 @@
-import { IdentityAnalysis, QuizAnswers } from "@/types/identity";
+import { IdentityAnalysis } from "@/types/identity";
 
-import { AIProvider } from "./types";
+import { AnalyzeIdentityInput, AIProvider } from "./types";
 
 export class OllamaAIProvider implements AIProvider {
   constructor(
@@ -8,12 +8,12 @@ export class OllamaAIProvider implements AIProvider {
     private readonly model: string,
   ) {}
 
-  async analyzeIdentity(input: QuizAnswers): Promise<IdentityAnalysis> {
+  async analyzeIdentity(input: AnalyzeIdentityInput): Promise<IdentityAnalysis> {
     const prompt = [
-      "Analyze the identity questionnaire and return strict JSON.",
-      "Required shape:",
-      '{"archetype":"queen|mentor|creator","strengths":[""],"blindSpots":[""],"visualDirection":[""],"imageBrief":""}',
-      `Answers: ${JSON.stringify(input)}`,
+      "Analyze this quiz for a feminine visual identity product.",
+      `Return strict JSON in locale ${input.locale}.`,
+      'Shape: {"archetype":"queen|mentor|creator","title":"","summary":"","strengths":[""],"blindSpots":[""],"visualDirection":"","businessDirection":"","imageBrief":""}',
+      `Answers: ${JSON.stringify(input.answers)}`,
     ].join("\n");
 
     const response = await fetch(`${this.baseUrl}/api/generate`, {
@@ -33,7 +33,6 @@ export class OllamaAIProvider implements AIProvider {
     }
 
     const data = await response.json();
-    const parsed = JSON.parse(data.response) as IdentityAnalysis;
-    return parsed;
+    return JSON.parse(data.response) as IdentityAnalysis;
   }
 }
