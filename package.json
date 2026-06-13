@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "dev": "node server.mjs",
-    "start": "node server.mjs"
+    "dev": "node dev.mjs",
+    "dev:site": "node server.mjs",
+    "bot": "node bot.mjs",
+    "start": "node dev.mjs"
   }
 }

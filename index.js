@@ -681,6 +681,7 @@ const stepIcons = [
 ];
 
 const interactiveButtons = [".header-cta", ".btn-primary", ".btn-cta"];
+const appConfig = window.__APP_CONFIG__ || {};
 let currentLocale = "ru";
 
 function setButtonLabel(element, label) {
@@ -696,6 +697,29 @@ function setButtonLabel(element, label) {
 
 function getByPath(source, path) {
   return path.split(".").reduce((accumulator, part) => accumulator?.[part], source);
+}
+
+function getBotUrl(locale = currentLocale) {
+  const fallbackUrl = "https://t.me/StyleSelf_with_Svetlana_bot";
+  const baseUrl = appConfig.telegramBotUrl || fallbackUrl;
+
+  try {
+    const url = new URL(baseUrl);
+    url.searchParams.set("start", `landing_${locale || "ru"}`);
+    return url.toString();
+  } catch {
+    return `${fallbackUrl}?start=landing_${locale || "ru"}`;
+  }
+}
+
+function applyBotLinks() {
+  const href = getBotUrl(currentLocale);
+
+  document.querySelectorAll("[data-bot-link]").forEach((node) => {
+    node.setAttribute("href", href);
+    node.setAttribute("target", "_blank");
+    node.setAttribute("rel", "noreferrer");
+  });
 }
 
 function renderProblemCards(locale) {
@@ -812,6 +836,7 @@ function renderLocale(locale) {
   renderList("pricingFeatures", content.pricing.features);
   renderFaq(currentLocale);
   updateLocaleButtons();
+  applyBotLinks();
   hydrateReveal();
 
   const url = new URL(window.location.href);
