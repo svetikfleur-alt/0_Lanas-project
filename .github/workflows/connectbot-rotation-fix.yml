@@ -39,11 +39,102 @@ jobs:
           git clone https://github.com/connectbot/connectbot.git cb
           git -C cb checkout 31f6cf825da5fc9987efbd6ff01a98236691cba9
 
-          git clone https://github.com/thewsdearman/termlib.git termlib
-          git -C termlib checkout 957c2e0f90d3690d0554dab6c45b8dda5fae16c6
+          git clone https://github.com/connectbot/termlib.git termlib
+          git -C termlib checkout 0.1.0
 
           echo "ConnectBot: $(git -C cb rev-parse HEAD)"
-          echo "termlib:    $(git -C termlib rev-parse HEAD)"
+          echo "termlib tag: $(git -C termlib describe --tags --exact-match)"
+          echo "termlib SHA: $(git -C termlib rev-parse HEAD)"
+
+      - name: Apply minimal resize/repaint patch only
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path("termlib/lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt")
+          s = p.read_text()
+
+          old = r'''    override fun resize(newRows: Int, newCols: Int) {
+        rows = newRows
+        cols = newCols
+        terminalNative.resize(newRows, newCols)
+
+        // Capture current default colors (thread-safe)
+        val currentDefaultFg: Color
+        val currentDefaultBg: Color
+        synchronized(damageLock) {
+            currentDefaultFg = currentDefaultForeground
+            currentDefaultBg = currentDefaultBackground
+        }
+
+        // Resize currentLines to match new dimensions, preserving semantic segments
+        synchronized(damageLock) {
+            val oldLines = currentLines
+            currentLines = List(newRows) { row ->
+                if (row < oldLines.size) {
+                    // Preserve semantic segments from the old line
+                    TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
+                        .copy(semanticSegments = oldLines[row].semanticSegments)
+                } else {
+                    TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
+                }
+            }
+            if (newRows < oldLines.size) {
+                for (row in newRows until oldLines.size) {
+                    removeStoredSegmentTexts(row)
+                }
+            }
+        }
+
+        // Rebuild all lines after resize
+        invalidateDisplay()
+
+        // Resize callback - post to handler to avoid blocking native thread
+        handler.post {
+            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
+        }
+    }'''
+
+          new = r'''    override fun resize(newRows: Int, newCols: Int) {
+        rows = newRows
+        cols = newCols
+        terminalNative.resize(newRows, newCols)
+
+        synchronized(damageLock) {
+            val currentDefaultFg = currentDefaultForeground
+            val currentDefaultBg = currentDefaultBackground
+
+            currentLines = List(newRows) { row ->
+                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
+            }
+
+            pendingDamageRegions.clear()
+            pendingDamageRegions.add(
+                DamageRegion(
+                    startRow = 0,
+                    endRow = newRows,
+                    startCol = 0,
+                    endCol = newCols,
+                    preserveSegments = false,
+                ),
+            )
+            requestProcessPendingUpdatesLocked()
+        }
+
+        handler.post {
+            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
+        }
+    }'''
+
+          if old not in s:
+              raise SystemExit("Expected 0.1.0 resize() body not found; refusing broad patch")
+          p.write_text(s.replace(old, new, 1))
+          print("Applied minimal resize/repaint patch to termlib 0.1.0")
+          PY
+
+          git -C termlib diff --check
+          git -C termlib diff -- lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt
 
       - name: Add resize/repaint regression tests
         shell: bash
@@ -128,71 +219,10 @@ jobs:
             --stacktrace
 
       - name: Run full patched termlib unit suite
-        id: termlib_full
         working-directory: termlib
         shell: bash
         run: |
-          set +e
           ./gradlew --no-daemon :lib:testDebugUnitTest --stacktrace
-          rc=$?
-          echo "rc=$rc" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Verify known baseline failure is pre-existing
-        id: baseline_known_failure
-        shell: bash
-        run: |
-          git clone https://github.com/connectbot/termlib.git termlib-baseline
-          git -C termlib-baseline checkout da47e388c309bcc90ad6bb91353cd526ccca5a11
-          set +e
-          (
-            cd termlib-baseline
-            ./gradlew --no-daemon :lib:testDebugUnitTest \
-              --tests org.connectbot.terminal.ShellIntegrationTest.testBoldBlackUsesBrightPaletteForIndexedColor \
-              --stacktrace
-          )
-          rc=$?
-          echo "rc=$rc" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Audit full termlib test failures
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import pathlib
-          import sys
-          import xml.etree.ElementTree as ET
-
-          result_dir = pathlib.Path("termlib/lib/build/test-results/testDebugUnitTest")
-          failures = []
-          for xml_path in result_dir.glob("TEST-*.xml"):
-              root = ET.parse(xml_path).getroot()
-              for tc in root.iter("testcase"):
-                  if tc.find("failure") is not None or tc.find("error") is not None:
-                      failures.append((tc.get("classname", ""), tc.get("name", "")))
-
-          allowed = {
-              ("org.connectbot.terminal.ShellIntegrationTest",
-               "testBoldBlackUsesBrightPaletteForIndexedColor")
-          }
-          unexpected = [x for x in failures if x not in allowed]
-
-          print("Full termlib failures:", failures)
-          print("Unexpected failures:", unexpected)
-
-          if unexpected:
-              sys.exit("Unexpected termlib unit-test failure(s)")
-
-          if failures:
-              print("Only the known unrelated ShellIntegrationTest failure remains.")
-          else:
-              print("Full termlib suite passed without failures.")
-          PY
-
-          if [ "${{ steps.termlib_full.outputs.rc }}" != "0" ] && [ "${{ steps.baseline_known_failure.outputs.rc }}" = "0" ]; then
-            echo "Patched suite failed but the baseline known-failure probe passed; refusing to treat it as pre-existing."
-            exit 1
-          fi
 
       - name: Lint and assemble patched termlib
         working-directory: termlib
