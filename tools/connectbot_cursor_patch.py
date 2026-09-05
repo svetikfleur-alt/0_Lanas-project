@@ -72,7 +72,7 @@ new_resize = """    override fun resize(newRows: Int, newCols: Int) {
         handler.post {
             onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
         }
-    }
+    }"""
 p.write_text(s[:method_start] + new_resize + s[next_doc:])
 
 # --- TerminalNative.kt: JNI wrapper for cursor query ---
