@@ -326,6 +326,10 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <application>
+                  <!-- Keep upstream's debug-only Hilt host used by 100+ Robolectric/Compose tests. -->
+                  <activity
+                      android:name=".HiltComponentActivity"
+                      android:exported="false" />
                   <activity
                       android:name="org.connectbot.RotationProbeActivity"
                       android:exported="true"
