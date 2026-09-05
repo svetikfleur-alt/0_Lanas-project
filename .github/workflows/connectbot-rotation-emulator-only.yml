@@ -47,7 +47,43 @@ jobs:
 
       - name: Install screenshot checker
         shell: bash
-        run: python3 -m pip install --disable-pip-version-check pillow
+        run: |
+          python3 -m pip install --disable-pip-version-check pillow
+          cat > verify_rotation.py <<'PY'
+          from PIL import Image
+          from pathlib import Path
+
+          paths = [
+              Path("rotation_portrait_before.png"),
+              Path("rotation_landscape.png"),
+              Path("rotation_portrait_after.png"),
+          ]
+
+          dims = [Image.open(p).size for p in paths]
+          print("dimensions:", dims)
+          assert dims[0][1] > dims[0][0], f"before is not portrait: {dims[0]}"
+          assert dims[1][0] > dims[1][1], f"middle is not landscape: {dims[1]}"
+          assert dims[2][1] > dims[2][0], f"after is not portrait: {dims[2]}"
+
+          def bright_fraction(path):
+              im = Image.open(path).convert("L")
+              w, h = im.size
+              crop = im.crop((int(w*0.05), int(h*0.06), int(w*0.95), int(h*0.94)))
+              hist = crop.histogram()
+              return sum(hist[170:]) / (crop.width * crop.height)
+
+          vals = [bright_fraction(p) for p in paths]
+          print("bright fractions:", vals)
+          before, landscape, after = vals
+
+          assert before > 0.006, f"terminal text not visible before rotation: {before}"
+          assert landscape > 0.004, f"terminal appears blank after landscape rotation: {landscape}"
+          assert after > 0.006, f"terminal appears blank after rotating back: {after}"
+          assert landscape / before > 0.30, (before, landscape)
+          assert after / before > 0.50, (before, after)
+
+          print("ROTATION_TEST_PASS")
+          PY
 
       - name: Android 14 portrait-landscape-portrait test
         timeout-minutes: 8
@@ -60,65 +96,22 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -no-snapshot -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            set -eu
-            APK="$(find artifact -name '*.apk' -print -quit)"
-            adb install -r "$APK"
+            adb install -r "$(find artifact -name '*.apk' -print -quit)"
             adb logcat -c
-
             adb shell settings put system accelerometer_rotation 0
             adb shell settings put system user_rotation 0
             adb shell am start -W -n org.connectbot.debug/org.connectbot.RotationProbeActivity
             sleep 3
             adb exec-out screencap -p > rotation_portrait_before.png
-
             adb shell settings put system user_rotation 1
             sleep 4
             adb exec-out screencap -p > rotation_landscape.png
-
             adb shell settings put system user_rotation 0
             sleep 4
             adb exec-out screencap -p > rotation_portrait_after.png
+            python3 verify_rotation.py
+            ! adb logcat -d | grep -q "FATAL EXCEPTION"
 
-            python3 - <<'PY'
-            from PIL import Image
-            from pathlib import Path
-
-            paths = [
-                Path("rotation_portrait_before.png"),
-                Path("rotation_landscape.png"),
-                Path("rotation_portrait_after.png"),
-            ]
-
-            dims = [Image.open(p).size for p in paths]
-            print("dimensions:", dims)
-            assert dims[0][1] > dims[0][0], f"before is not portrait: {dims[0]}"
-            assert dims[1][0] > dims[1][1], f"middle is not landscape: {dims[1]}"
-            assert dims[2][1] > dims[2][0], f"after is not portrait: {dims[2]}"
-
-            def bright_fraction(path):
-                im = Image.open(path).convert("L")
-                w, h = im.size
-                crop = im.crop((int(w*0.05), int(h*0.06), int(w*0.95), int(h*0.94)))
-                hist = crop.histogram()
-                return sum(hist[170:]) / (crop.width * crop.height)
-
-            vals = [bright_fraction(p) for p in paths]
-            print("bright fractions:", vals)
-            before, landscape, after = vals
-
-            assert before > 0.006, f"terminal text not visible before rotation: {before}"
-            assert landscape > 0.004, f"terminal appears blank after landscape rotation: {landscape}"
-            assert after > 0.006, f"terminal appears blank after rotating back: {after}"
-            assert landscape / before > 0.30, (before, landscape)
-            assert after / before > 0.50, (before, after)
-
-            print("ROTATION_TEST_PASS")
-            PY
-
-            if adb logcat -d | grep -q "FATAL EXCEPTION"; then
-              adb logcat -d | tail -250
-              exit 1
-            fi
 
       - name: Upload passing APK and screenshots
         if: always()
