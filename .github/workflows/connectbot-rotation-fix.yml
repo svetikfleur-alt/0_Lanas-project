@@ -119,11 +119,80 @@ jobs:
           }
           KOT
 
-      - name: Run patched termlib unit tests
+      - name: Run exact rotation regression tests
         working-directory: termlib
         shell: bash
         run: |
+          ./gradlew --no-daemon :lib:testDebugUnitTest \
+            --tests org.connectbot.terminal.ResizeRepaintRegressionTest \
+            --stacktrace
+
+      - name: Run full patched termlib unit suite
+        id: termlib_full
+        working-directory: termlib
+        shell: bash
+        run: |
+          set +e
           ./gradlew --no-daemon :lib:testDebugUnitTest --stacktrace
+          rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Verify known baseline failure is pre-existing
+        id: baseline_known_failure
+        shell: bash
+        run: |
+          git clone https://github.com/connectbot/termlib.git termlib-baseline
+          git -C termlib-baseline checkout da47e388c309bcc90ad6bb91353cd526ccca5a11
+          set +e
+          (
+            cd termlib-baseline
+            ./gradlew --no-daemon :lib:testDebugUnitTest \
+              --tests org.connectbot.terminal.ShellIntegrationTest.testBoldBlackUsesBrightPaletteForIndexedColor \
+              --stacktrace
+          )
+          rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Audit full termlib test failures
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          import sys
+          import xml.etree.ElementTree as ET
+
+          result_dir = pathlib.Path("termlib/lib/build/test-results/testDebugUnitTest")
+          failures = []
+          for xml_path in result_dir.glob("TEST-*.xml"):
+              root = ET.parse(xml_path).getroot()
+              for tc in root.iter("testcase"):
+                  if tc.find("failure") is not None or tc.find("error") is not None:
+                      failures.append((tc.get("classname", ""), tc.get("name", "")))
+
+          allowed = {
+              ("org.connectbot.terminal.ShellIntegrationTest",
+               "testBoldBlackUsesBrightPaletteForIndexedColor")
+          }
+          unexpected = [x for x in failures if x not in allowed]
+
+          print("Full termlib failures:", failures)
+          print("Unexpected failures:", unexpected)
+
+          if unexpected:
+              sys.exit("Unexpected termlib unit-test failure(s)")
+
+          if failures:
+              print("Only the known unrelated ShellIntegrationTest failure remains.")
+          else:
+              print("Full termlib suite passed without failures.")
+          PY
+
+          if [ "${{ steps.termlib_full.outputs.rc }}" != "0" ] && [ "${{ steps.baseline_known_failure.outputs.rc }}" = "0" ]; then
+            echo "Patched suite failed but the baseline known-failure probe passed; refusing to treat it as pre-existing."
+            exit 1
+          fi
 
       - name: Lint and assemble patched termlib
         working-directory: termlib
@@ -145,11 +214,13 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
-          p = Path("cb/app/src/main/res/values/strings.xml")
+          p = Path("cb/app/src/main/res/values/notrans.xml")
           s = p.read_text()
-          s = s.replace('<string name="app_name">ConnectBot</string>',
-                        '<string name="app_name">ConnectBot Fixed</string>')
-          p.write_text(s)
+          old = '<string name="app_name" translatable="false">ConnectBot</string>'
+          new = '<string name="app_name" translatable="false">ConnectBot Fixed</string>'
+          if old not in s:
+              raise SystemExit("app_name resource not found")
+          p.write_text(s.replace(old, new))
           PY
 
       - name: Add on-device rotation probe
@@ -267,7 +338,7 @@ jobs:
       - name: Emulator rotation/repaint test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 34
           arch: x86_64
           profile: pixel_6
           disable-animations: true
@@ -315,6 +386,12 @@ jobs:
                 frac, size = bright_fraction(p)
                 values.append(frac)
                 print(f"{p}: crop={size}, bright_fraction={frac:.6f}")
+
+            dims = [Image.open(p).size for p in paths]
+            print("screenshot dimensions:", dims)
+            assert dims[0][1] > dims[0][0], f"first screenshot is not portrait: {dims[0]}"
+            assert dims[1][0] > dims[1][1], f"middle screenshot is not landscape: {dims[1]}"
+            assert dims[2][1] > dims[2][0], f"final screenshot is not portrait: {dims[2]}"
 
             before, landscape, after = values
             assert before > 0.006, f"probe text not visible before rotation: {before}"
