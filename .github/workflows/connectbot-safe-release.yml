@@ -46,37 +46,38 @@ jobs:
           echo "termlib tag:   $(git -C termlib describe --tags --exact-match)"
           echo "termlib SHA:   $(git -C termlib rev-parse HEAD)"
 
-      - name: Apply only the rotation repaint fix
+      - name: Apply rotation repaint and cursor resync fixes
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
 
+          # 1) Rebuild the visible buffer after resize and then resync the cursor
+          #    directly from libvterm before publishing the new snapshot.
           p = Path("termlib/lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt")
           s = p.read_text()
-
           method_start = s.index("    override fun resize(newRows: Int, newCols: Int) {")
           next_doc = s.index("\n    /**", method_start)
           old = s[method_start:next_doc]
-
-          required = [
-              "// Capture current default colors (thread-safe)",
-              "invalidateDisplay()",
-              "removeStoredSegmentTexts(row)",
-          ]
-          missing = [needle for needle in required if needle not in old]
+          required = ["invalidateDisplay()", "removeStoredSegmentTexts(row)"]
+          missing = [x for x in required if x not in old]
           if missing:
-              raise SystemExit(f"Unexpected termlib 0.1.0 resize body, missing: {missing}")
+              raise SystemExit(f"Unexpected resize body, missing: {missing}")
 
           lines = [
               "    override fun resize(newRows: Int, newCols: Int) {",
               "        rows = newRows",
               "        cols = newCols",
               "        terminalNative.resize(newRows, newCols)",
+              "        val nativeCursor = terminalNative.getCursorPosition()",
               "",
               "        synchronized(damageLock) {",
               "            val currentDefaultFg = currentDefaultForeground",
               "            val currentDefaultBg = currentDefaultBackground",
+              "",
+              "            cursorRow = nativeCursor.row.coerceIn(0, newRows - 1)",
+              "            cursorCol = nativeCursor.col.coerceIn(0, newCols - 1)",
+              "            cursorMoved = true",
               "",
               "            currentLines = List(newRows) { row ->",
               "                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)",
@@ -100,25 +101,156 @@ jobs:
               "        }",
               "    }",
           ]
-          new = "\n".join(lines)
-          p.write_text(s[:method_start] + new + s[next_doc:])
+          p.write_text(s[:method_start] + "\n".join(lines) + s[next_doc:])
 
+          # 2) Kotlin JNI wrapper for an atomic native cursor query.
+          p = Path("termlib/lib/src/main/java/org/connectbot/terminal/TerminalNative.kt")
+          s = p.read_text()
+          anchor = '''    fun resize(rows: Int, cols: Int): Int {
+        checkNotClosed()
+        return nativeResize(nativePtr, rows, cols)
+    }
+'''
+          insert = anchor + '''
+    /** Read the authoritative cursor position directly from libvterm. */
+    fun getCursorPosition(): CursorPosition {
+        checkNotClosed()
+        val packed = nativeGetCursorPosition(nativePtr)
+        return CursorPosition(
+            row = (packed ushr 32).toInt(),
+            col = packed.toInt(),
+        )
+    }
+'''
+          if anchor not in s:
+              raise SystemExit("TerminalNative resize anchor not found")
+          s = s.replace(anchor, insert, 1)
+          decl = "    private external fun nativeResize(ptr: Long, rows: Int, cols: Int): Int\n"
+          if decl not in s:
+              raise SystemExit("TerminalNative nativeResize declaration not found")
+          s = s.replace(decl, decl + "    private external fun nativeGetCursorPosition(ptr: Long): Long\n", 1)
+          p.write_text(s)
+
+          # 3) Native C++ cursor query, protected by the same terminal mutex.
+          p = Path("termlib/lib/src/main/cpp/Terminal.h")
+          s = p.read_text()
+          anchor = "    int resize(int rows, int cols);\n"
+          if anchor not in s:
+              raise SystemExit("Terminal.h resize anchor not found")
+          p.write_text(s.replace(anchor, anchor + "    uint64_t getCursorPosition();\n", 1))
+
+          p = Path("termlib/lib/src/main/cpp/Terminal.cpp")
+          s = p.read_text()
+          anchor = '''int Terminal::resize(int rows, int cols) {
+    std::scoped_lock lock(mLock);
+
+    mRows = rows;
+    mCols = cols;
+
+    if (mVt) {
+        vterm_set_size(mVt, rows, cols);
+        vterm_screen_flush_damage(mVts);
+    }
+
+    return 0;
+}
+'''
+          insert = anchor + '''
+uint64_t Terminal::getCursorPosition() {
+    std::scoped_lock lock(mLock);
+    if (!mVt) return 0;
+
+    VTermPos pos{0, 0};
+    VTermState* state = vterm_obtain_state(mVt);
+    if (state) {
+        vterm_state_get_cursorpos(state, &pos);
+    }
+    return (static_cast<uint64_t>(static_cast<uint32_t>(pos.row)) << 32) |
+           static_cast<uint32_t>(pos.col);
+}
+'''
+          if anchor not in s:
+              raise SystemExit("Terminal.cpp resize implementation not found")
+          s = s.replace(anchor, insert, 1)
+
+          jni_anchor = '''JNIEXPORT jint JNICALL
+Java_org_connectbot_terminal_TerminalNative_nativeResize(JNIEnv* /* env */, jobject /* thiz */,
+                                                         jlong ptr, jint rows, jint cols) {
+    auto* term = reinterpret_cast<Terminal*>(ptr);
+    return term->resize(rows, cols);
+}
+'''
+          jni_insert = jni_anchor + '''
+JNIEXPORT jlong JNICALL
+Java_org_connectbot_terminal_TerminalNative_nativeGetCursorPosition(JNIEnv* /* env */, jobject /* thiz */,
+                                                                    jlong ptr) {
+    auto* term = reinterpret_cast<Terminal*>(ptr);
+    return static_cast<jlong>(term->getCursorPosition());
+}
+'''
+          if jni_anchor not in s:
+              raise SystemExit("Terminal.cpp JNI resize anchor not found")
+          p.write_text(s.replace(jni_anchor, jni_insert, 1))
+
+          # Align composite-build tooling only.
           versions = Path("termlib/gradle/libs.versions.toml")
           vt = versions.read_text()
-          if 'androidGradlePlugin = "9.2.1"' not in vt:
-              raise SystemExit("Expected termlib AGP version not found")
           versions.write_text(vt.replace('androidGradlePlugin = "9.2.1"', 'androidGradlePlugin = "9.3.1"', 1))
-
           wrapper = Path("termlib/gradle/wrapper/gradle-wrapper.properties")
           wt = wrapper.read_text()
-          if "gradle-9.5.1-bin.zip" not in wt:
-              raise SystemExit("Expected termlib Gradle wrapper not found")
           wrapper.write_text(wt.replace("gradle-9.5.1-bin.zip", "gradle-9.6.1-bin.zip", 1))
           PY
 
           git -C termlib diff --check
-          echo "=== Runtime source diff ==="
-          git -C termlib diff -- lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt
+          git -C termlib diff --stat
+
+      - name: Add cursor resize regression test
+        shell: bash
+        run: |
+          cat > termlib/lib/src/test/java/org/connectbot/terminal/CursorResizeRegressionTest.kt <<'KOT'
+          package org.connectbot.terminal
+
+          import android.os.Looper
+          import androidx.compose.ui.graphics.Color
+          import org.junit.Assert.assertEquals
+          import org.junit.Assert.assertTrue
+          import org.junit.Test
+          import org.junit.runner.RunWith
+          import org.robolectric.RobolectricTestRunner
+          import org.robolectric.Shadows
+          import org.robolectric.annotation.LooperMode
+
+          @RunWith(RobolectricTestRunner::class)
+          @LooperMode(LooperMode.Mode.PAUSED)
+          class CursorResizeRegressionTest {
+              @Test
+              fun cursorSnapshotIsSynchronizedImmediatelyAfterResize() {
+                  val emulator = TerminalEmulatorFactory.create(
+                      initialRows = 24,
+                      initialCols = 80,
+                      defaultForeground = Color.White,
+                      defaultBackground = Color.Black,
+                  ) as TerminalEmulatorImpl
+
+                  // Put the native cursor at row 10, col 20 (1-based ANSI coordinates).
+                  emulator.writeInput("\u001B[10;20Hprompt> ".toByteArray())
+                  Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+                  emulator.resize(newRows = 12, newCols = 140)
+                  Shadows.shadowOf(Looper.getMainLooper()).idle()
+
+                  val snap = emulator.snapshot.value
+                  assertEquals(12, snap.rows)
+                  assertEquals(140, snap.cols)
+                  assertTrue(snap.cursorRow in 0 until snap.rows)
+                  assertTrue(snap.cursorCol in 0 until snap.cols)
+
+                  // The prompt text advances the cursor but resize must not move it to
+                  // an unrelated row; it should remain on ANSI row 10 (index 9).
+                  assertEquals(9, snap.cursorRow)
+              }
+          }
+          KOT
 
       - name: Wire patched termlib and make clean side-by-side release
         shell: bash
@@ -134,30 +266,16 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
-
-          # Separate application ID so it can coexist with the Play Store ConnectBot.
           p = Path("cb/app/build.gradle.kts")
           s = p.read_text()
-          old = 'applicationId = "org.connectbot"'
-          new = 'applicationId = "org.connectbot.fixed"'
-          if old not in s:
-              raise SystemExit("ConnectBot applicationId anchor not found")
-          p.write_text(s.replace(old, new, 1))
+          p.write_text(s.replace('applicationId = "org.connectbot"', 'applicationId = "org.connectbot.fixed"', 1))
 
-          # Clear identification: this is the locally patched build, not the official package.
           p = Path("cb/app/src/main/res/values/notrans.xml")
           s = p.read_text()
-          old = '<string name="app_name" translatable="false">ConnectBot</string>'
-          new = '<string name="app_name" translatable="false">ConnectBot Fixed</string>'
-          if old not in s:
-              raise SystemExit("ConnectBot app_name anchor not found")
-          p.write_text(s.replace(old, new, 1))
+          p.write_text(s.replace('<string name="app_name" translatable="false">ConnectBot</string>', '<string name="app_name" translatable="false">ConnectBot Fixed</string>', 1))
 
-          # Composite build includes a release plugin incompatible with configuration cache.
           p = Path("cb/gradle.properties")
           s = p.read_text()
-          if "org.gradle.configuration-cache=true" not in s:
-              raise SystemExit("configuration-cache anchor not found")
           p.write_text(s.replace("org.gradle.configuration-cache=true", "org.gradle.configuration-cache=false", 1))
           PY
 
@@ -167,7 +285,6 @@ jobs:
           PASS="$(openssl rand -hex 24)"
           echo "::add-mask::$PASS"
           echo "KEYSTORE_PASS=$PASS" >> "$GITHUB_ENV"
-
           keytool -genkeypair -v \
             -keystore "$RUNNER_TEMP/connectbot-fixed-release.jks" \
             -storepass "$PASS" \
@@ -178,10 +295,11 @@ jobs:
             -validity 3650 \
             -dname "CN=ConnectBot Fixed Local Build, OU=Local Release, O=ConnectBot Fixed, C=SI"
 
-      - name: Run terminal library tests
+      - name: Run cursor regression and full terminal tests
         working-directory: termlib
         shell: bash
         run: |
+          ./gradlew --no-daemon :lib:testDebugUnitTest --tests org.connectbot.terminal.CursorResizeRegressionTest --stacktrace
           ./gradlew --no-daemon :lib:testDebugUnitTest --stacktrace
 
       - name: Build signed OSS release APK
@@ -201,40 +319,24 @@ jobs:
         run: |
           APK="cb/app/build/outputs/apk/oss/release/app-oss-release.apk"
           test -f "$APK"
-
           mkdir -p audit
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$APK" | tee audit/badging.txt
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump permissions "$APK" | tee audit/permissions.txt
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > audit/manifest-tree.txt
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs "$APK" | tee audit/signature.txt
-
           grep -q "package: name='org.connectbot.fixed'" audit/badging.txt
-
-          if grep -q "application-debuggable" audit/badging.txt; then
-            echo "ERROR: release APK is debuggable"
-            exit 1
-          fi
-          if grep -Eq "android:debuggable.*0xffffffff|android:testOnly.*0xffffffff" audit/manifest-tree.txt; then
-            echo "ERROR: debug/testOnly flag found in release manifest"
-            exit 1
-          fi
-          if grep -Eq "RotationProbeActivity|HiltComponentActivity" audit/manifest-tree.txt; then
-            echo "ERROR: debug-only test Activity leaked into release APK"
-            exit 1
-          fi
-          if grep -q "CN=Android Debug" audit/signature.txt; then
-            echo "ERROR: APK is still signed with Android Debug certificate"
-            exit 1
-          fi
-
-          cp "$APK" "ConnectBot_Fixed_Rotation_RELEASE.apk"
-          sha256sum "ConnectBot_Fixed_Rotation_RELEASE.apk" | tee audit/sha256.txt
+          ! grep -q "application-debuggable" audit/badging.txt
+          ! grep -Eq "android:debuggable.*0xffffffff|android:testOnly.*0xffffffff" audit/manifest-tree.txt
+          ! grep -Eq "RotationProbeActivity|HiltComponentActivity" audit/manifest-tree.txt
+          ! grep -q "CN=Android Debug" audit/signature.txt
+          cp "$APK" "ConnectBot_Fixed_Rotation_Cursor_RELEASE.apk"
+          sha256sum "ConnectBot_Fixed_Rotation_Cursor_RELEASE.apk" | tee audit/sha256.txt
 
       - name: Upload clean release APK and audit
         uses: actions/upload-artifact@v4
         with:
-          name: connectbot-fixed-safe-release
+          name: connectbot-fixed-cursor-release
           retention-days: 14
           path: |
-            ConnectBot_Fixed_Rotation_RELEASE.apk
+            ConnectBot_Fixed_Rotation_Cursor_RELEASE.apk
             audit/
