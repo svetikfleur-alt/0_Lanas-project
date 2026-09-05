@@ -55,82 +55,54 @@ jobs:
           p = Path("termlib/lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt")
           s = p.read_text()
 
-          old = r'''    override fun resize(newRows: Int, newCols: Int) {
-        rows = newRows
-        cols = newCols
-        terminalNative.resize(newRows, newCols)
+          method_start = s.index("    override fun resize(newRows: Int, newCols: Int) {")
+          next_doc = s.index("\n    /**", method_start)
+          old = s[method_start:next_doc]
 
-        // Capture current default colors (thread-safe)
-        val currentDefaultFg: Color
-        val currentDefaultBg: Color
-        synchronized(damageLock) {
-            currentDefaultFg = currentDefaultForeground
-            currentDefaultBg = currentDefaultBackground
-        }
+          required = [
+              "// Capture current default colors (thread-safe)",
+              "invalidateDisplay()",
+              "removeStoredSegmentTexts(row)",
+          ]
+          missing = [needle for needle in required if needle not in old]
+          if missing:
+              raise SystemExit(f"Unexpected termlib 0.1.0 resize body, missing: {missing}")
 
-        // Resize currentLines to match new dimensions, preserving semantic segments
-        synchronized(damageLock) {
-            val oldLines = currentLines
-            currentLines = List(newRows) { row ->
-                if (row < oldLines.size) {
-                    // Preserve semantic segments from the old line
-                    TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
-                        .copy(semanticSegments = oldLines[row].semanticSegments)
-                } else {
-                    TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
-                }
-            }
-            if (newRows < oldLines.size) {
-                for (row in newRows until oldLines.size) {
-                    removeStoredSegmentTexts(row)
-                }
-            }
-        }
-
-        // Rebuild all lines after resize
-        invalidateDisplay()
-
-        // Resize callback - post to handler to avoid blocking native thread
-        handler.post {
-            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
-        }
-    }'''
-
-          new = r'''    override fun resize(newRows: Int, newCols: Int) {
-        rows = newRows
-        cols = newCols
-        terminalNative.resize(newRows, newCols)
-
-        synchronized(damageLock) {
-            val currentDefaultFg = currentDefaultForeground
-            val currentDefaultBg = currentDefaultBackground
-
-            currentLines = List(newRows) { row ->
-                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
-            }
-
-            pendingDamageRegions.clear()
-            pendingDamageRegions.add(
-                DamageRegion(
-                    startRow = 0,
-                    endRow = newRows,
-                    startCol = 0,
-                    endCol = newCols,
-                    preserveSegments = false,
-                ),
-            )
-            requestProcessPendingUpdatesLocked()
-        }
-
-        handler.post {
-            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
-        }
-    }'''
-
-          if old not in s:
-              raise SystemExit("Expected 0.1.0 resize() body not found; refusing broad patch")
-          p.write_text(s.replace(old, new, 1))
-          print("Applied minimal resize/repaint patch to termlib 0.1.0")
+          lines = [
+              "    override fun resize(newRows: Int, newCols: Int) {",
+              "        rows = newRows",
+              "        cols = newCols",
+              "        terminalNative.resize(newRows, newCols)",
+              "",
+              "        synchronized(damageLock) {",
+              "            val currentDefaultFg = currentDefaultForeground",
+              "            val currentDefaultBg = currentDefaultBackground",
+              "",
+              "            currentLines = List(newRows) { row ->",
+              "                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)",
+              "            }",
+              "",
+              "            pendingDamageRegions.clear()",
+              "            pendingDamageRegions.add(",
+              "                DamageRegion(",
+              "                    startRow = 0,",
+              "                    endRow = newRows,",
+              "                    startCol = 0,",
+              "                    endCol = newCols,",
+              "                    preserveSegments = false,",
+              "                ),",
+              "            )",
+              "            requestProcessPendingUpdatesLocked()",
+              "        }",
+              "",
+              "        handler.post {",
+              "            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))",
+              "        }",
+              "    }",
+          ]
+          new = "\n".join(lines)
+          p.write_text(s[:method_start] + new + s[next_doc:])
+          print("Applied minimal resize/repaint patch to exact termlib 0.1.0")
           PY
 
           git -C termlib diff --check
