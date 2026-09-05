@@ -105,6 +105,27 @@ jobs:
           new = "\n".join(lines)
           p.write_text(s[:method_start] + new + s[next_doc:])
           print("Applied minimal resize/repaint patch to exact termlib 0.1.0")
+
+          # Composite builds reject mixed AGP versions. ConnectBot 1.10.9 uses
+          # AGP 9.3.1 + Gradle 9.6.1, while termlib 0.1.0 shipped with
+          # AGP 9.2.1 + Gradle 9.5.1. Align build tooling only; runtime source
+          # remains the exact 0.1.0 tag plus the resize fix above.
+          versions = Path("termlib/gradle/libs.versions.toml")
+          vt = versions.read_text()
+          old_agp = 'androidGradlePlugin = "9.2.1"'
+          new_agp = 'androidGradlePlugin = "9.3.1"'
+          if old_agp not in vt:
+              raise SystemExit("Expected termlib AGP 9.2.1 not found")
+          versions.write_text(vt.replace(old_agp, new_agp, 1))
+
+          wrapper = Path("termlib/gradle/wrapper/gradle-wrapper.properties")
+          wt = wrapper.read_text()
+          old_gradle = "gradle-9.5.1-bin.zip"
+          new_gradle = "gradle-9.6.1-bin.zip"
+          if old_gradle not in wt:
+              raise SystemExit("Expected termlib Gradle 9.5.1 wrapper not found")
+          wrapper.write_text(wt.replace(old_gradle, new_gradle, 1))
+          print("Aligned termlib build tooling to ConnectBot: AGP 9.3.1 / Gradle 9.6.1")
           PY
 
           git -C termlib diff --check
