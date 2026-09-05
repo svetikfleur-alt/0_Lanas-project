@@ -45,6 +45,7 @@ jobs:
         run: |
           python3 tools/connectbot_cursor_patch.py
           cp tools/CursorResizeRegressionTest.kt termlib/lib/src/test/java/org/connectbot/terminal/CursorResizeRegressionTest.kt
+          cp tools/ResizeScrollbackRegressionTest.kt termlib/lib/src/test/java/org/connectbot/terminal/ResizeScrollbackRegressionTest.kt
           git -C termlib diff --check
           git -C termlib diff --stat
 
@@ -84,7 +85,7 @@ jobs:
         working-directory: termlib
         shell: bash
         run: |
-          ./gradlew --no-daemon :lib:testDebugUnitTest --tests org.connectbot.terminal.CursorResizeRegressionTest --stacktrace
+          ./gradlew --no-daemon :lib:testDebugUnitTest --tests org.connectbot.terminal.CursorResizeRegressionTest --tests org.connectbot.terminal.ResizeScrollbackRegressionTest --stacktrace
           ./gradlew --no-daemon :lib:testDebugUnitTest --stacktrace
 
       - name: Build release APK
