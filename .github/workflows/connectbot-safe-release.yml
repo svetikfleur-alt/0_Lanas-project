@@ -1,0 +1,240 @@
+name: ConnectBot safe release build
+
+on:
+  push:
+    branches:
+      - tmp/connectbot-safe-release
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout build host
+        uses: actions/checkout@v6
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android components
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "cmake;3.22.1" "ndk;27.0.12077973"
+
+      - name: Fetch pinned upstream sources
+        shell: bash
+        run: |
+          git clone https://github.com/connectbot/connectbot.git cb
+          git -C cb checkout 31f6cf825da5fc9987efbd6ff01a98236691cba9
+
+          git clone https://github.com/connectbot/termlib.git termlib
+          git -C termlib checkout 0.1.0
+
+          echo "ConnectBot SHA: $(git -C cb rev-parse HEAD)"
+          echo "termlib tag:   $(git -C termlib describe --tags --exact-match)"
+          echo "termlib SHA:   $(git -C termlib rev-parse HEAD)"
+
+      - name: Apply only the rotation repaint fix
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path("termlib/lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt")
+          s = p.read_text()
+
+          method_start = s.index("    override fun resize(newRows: Int, newCols: Int) {")
+          next_doc = s.index("\n    /**", method_start)
+          old = s[method_start:next_doc]
+
+          required = [
+              "// Capture current default colors (thread-safe)",
+              "invalidateDisplay()",
+              "removeStoredSegmentTexts(row)",
+          ]
+          missing = [needle for needle in required if needle not in old]
+          if missing:
+              raise SystemExit(f"Unexpected termlib 0.1.0 resize body, missing: {missing}")
+
+          lines = [
+              "    override fun resize(newRows: Int, newCols: Int) {",
+              "        rows = newRows",
+              "        cols = newCols",
+              "        terminalNative.resize(newRows, newCols)",
+              "",
+              "        synchronized(damageLock) {",
+              "            val currentDefaultFg = currentDefaultForeground",
+              "            val currentDefaultBg = currentDefaultBackground",
+              "",
+              "            currentLines = List(newRows) { row ->",
+              "                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)",
+              "            }",
+              "",
+              "            pendingDamageRegions.clear()",
+              "            pendingDamageRegions.add(",
+              "                DamageRegion(",
+              "                    startRow = 0,",
+              "                    endRow = newRows,",
+              "                    startCol = 0,",
+              "                    endCol = newCols,",
+              "                    preserveSegments = false,",
+              "                ),",
+              "            )",
+              "            requestProcessPendingUpdatesLocked()",
+              "        }",
+              "",
+              "        handler.post {",
+              "            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))",
+              "        }",
+              "    }",
+          ]
+          new = "\n".join(lines)
+          p.write_text(s[:method_start] + new + s[next_doc:])
+
+          versions = Path("termlib/gradle/libs.versions.toml")
+          vt = versions.read_text()
+          if 'androidGradlePlugin = "9.2.1"' not in vt:
+              raise SystemExit("Expected termlib AGP version not found")
+          versions.write_text(vt.replace('androidGradlePlugin = "9.2.1"', 'androidGradlePlugin = "9.3.1"', 1))
+
+          wrapper = Path("termlib/gradle/wrapper/gradle-wrapper.properties")
+          wt = wrapper.read_text()
+          if "gradle-9.5.1-bin.zip" not in wt:
+              raise SystemExit("Expected termlib Gradle wrapper not found")
+          wrapper.write_text(wt.replace("gradle-9.5.1-bin.zip", "gradle-9.6.1-bin.zip", 1))
+          PY
+
+          git -C termlib diff --check
+          echo "=== Runtime source diff ==="
+          git -C termlib diff -- lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt
+
+      - name: Wire patched termlib and make clean side-by-side release
+        shell: bash
+        run: |
+          cat >> cb/settings.gradle.kts <<'KOT'
+
+          includeBuild("../termlib") {
+              dependencySubstitution {
+                  substitute(module("org.connectbot:termlib")).using(project(":lib"))
+              }
+          }
+          KOT
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # Separate application ID so it can coexist with the Play Store ConnectBot.
+          p = Path("cb/app/build.gradle.kts")
+          s = p.read_text()
+          old = 'applicationId = "org.connectbot"'
+          new = 'applicationId = "org.connectbot.fixed"'
+          if old not in s:
+              raise SystemExit("ConnectBot applicationId anchor not found")
+          p.write_text(s.replace(old, new, 1))
+
+          # Clear identification: this is the locally patched build, not the official package.
+          p = Path("cb/app/src/main/res/values/notrans.xml")
+          s = p.read_text()
+          old = '<string name="app_name" translatable="false">ConnectBot</string>'
+          new = '<string name="app_name" translatable="false">ConnectBot Fixed</string>'
+          if old not in s:
+              raise SystemExit("ConnectBot app_name anchor not found")
+          p.write_text(s.replace(old, new, 1))
+
+          # Composite build includes a release plugin incompatible with configuration cache.
+          p = Path("cb/gradle.properties")
+          s = p.read_text()
+          if "org.gradle.configuration-cache=true" not in s:
+              raise SystemExit("configuration-cache anchor not found")
+          p.write_text(s.replace("org.gradle.configuration-cache=true", "org.gradle.configuration-cache=false", 1))
+          PY
+
+      - name: Generate a non-debug release signing key
+        shell: bash
+        run: |
+          PASS="$(openssl rand -hex 24)"
+          echo "::add-mask::$PASS"
+          echo "KEYSTORE_PASS=$PASS" >> "$GITHUB_ENV"
+
+          keytool -genkeypair -v \
+            -keystore "$RUNNER_TEMP/connectbot-fixed-release.jks" \
+            -storepass "$PASS" \
+            -keypass "$PASS" \
+            -alias connectbot-fixed \
+            -keyalg RSA \
+            -keysize 4096 \
+            -validity 3650 \
+            -dname "CN=ConnectBot Fixed Local Build, OU=Local Release, O=ConnectBot Fixed, C=SI"
+
+      - name: Run terminal library tests
+        working-directory: termlib
+        shell: bash
+        run: |
+          ./gradlew --no-daemon :lib:testDebugUnitTest --stacktrace
+
+      - name: Build signed OSS release APK
+        working-directory: cb
+        shell: bash
+        run: |
+          ./gradlew --no-daemon \
+            :app:lintOssRelease \
+            :app:assembleOssRelease \
+            -PkeystoreFile="$RUNNER_TEMP/connectbot-fixed-release.jks" \
+            -PkeystorePassword="$KEYSTORE_PASS" \
+            -PkeystoreAlias="connectbot-fixed" \
+            --stacktrace
+
+      - name: Security audit release APK
+        shell: bash
+        run: |
+          APK="cb/app/build/outputs/apk/oss/release/app-oss-release.apk"
+          test -f "$APK"
+
+          mkdir -p audit
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$APK" | tee audit/badging.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump permissions "$APK" | tee audit/permissions.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > audit/manifest-tree.txt
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs "$APK" | tee audit/signature.txt
+
+          grep -q "package: name='org.connectbot.fixed'" audit/badging.txt
+
+          if grep -q "application-debuggable" audit/badging.txt; then
+            echo "ERROR: release APK is debuggable"
+            exit 1
+          fi
+          if grep -Eq "android:debuggable.*0xffffffff|android:testOnly.*0xffffffff" audit/manifest-tree.txt; then
+            echo "ERROR: debug/testOnly flag found in release manifest"
+            exit 1
+          fi
+          if grep -Eq "RotationProbeActivity|HiltComponentActivity" audit/manifest-tree.txt; then
+            echo "ERROR: debug-only test Activity leaked into release APK"
+            exit 1
+          fi
+          if grep -q "CN=Android Debug" audit/signature.txt; then
+            echo "ERROR: APK is still signed with Android Debug certificate"
+            exit 1
+          fi
+
+          cp "$APK" "ConnectBot_Fixed_Rotation_RELEASE.apk"
+          sha256sum "ConnectBot_Fixed_Rotation_RELEASE.apk" | tee audit/sha256.txt
+
+      - name: Upload clean release APK and audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: connectbot-fixed-safe-release
+          retention-days: 14
+          path: |
+            ConnectBot_Fixed_Rotation_RELEASE.apk
+            audit/
