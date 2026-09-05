@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "cmake;3.22.1" "ndk;27.0.12077973"
+          sdkmanager "platform-tools" "platforms;android-36" "platforms;android-37" "build-tools;36.0.0" "cmake;3.22.1" "ndk;27.0.12077973"
 
       - name: Fetch pinned ConnectBot and patched termlib
         shell: bash
