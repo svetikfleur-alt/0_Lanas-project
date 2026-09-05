@@ -1,0 +1,157 @@
+from pathlib import Path
+
+ROOT = Path("termlib")
+
+# --- TerminalEmulator.kt: full repaint + authoritative cursor resync after resize ---
+p = ROOT / "lib/src/main/java/org/connectbot/terminal/TerminalEmulator.kt"
+s = p.read_text()
+method_start = s.index("    override fun resize(newRows: Int, newCols: Int) {")
+next_doc = s.index("\n    /**", method_start)
+old = s[method_start:next_doc]
+for needle in ("invalidateDisplay()", "removeStoredSegmentTexts(row)"):
+    if needle not in old:
+        raise SystemExit(f"Unexpected upstream resize body; missing {needle!r}")
+
+new_resize = """    override fun resize(newRows: Int, newCols: Int) {
+        rows = newRows
+        cols = newCols
+        terminalNative.resize(newRows, newCols)
+        val nativeCursor = terminalNative.getCursorPosition()
+
+        synchronized(damageLock) {
+            val currentDefaultFg = currentDefaultForeground
+            val currentDefaultBg = currentDefaultBackground
+
+            // libvterm owns the authoritative cursor after reflow/resize.
+            // Synchronize it before the same snapshot that republishes the screen.
+            cursorRow = nativeCursor.row.coerceIn(0, newRows - 1)
+            cursorCol = nativeCursor.col.coerceIn(0, newCols - 1)
+            cursorMoved = true
+
+            currentLines = List(newRows) { row ->
+                TerminalLine.empty(row, newCols, currentDefaultFg, currentDefaultBg)
+            }
+
+            pendingDamageRegions.clear()
+            pendingDamageRegions.add(
+                DamageRegion(
+                    startRow = 0,
+                    endRow = newRows,
+                    startCol = 0,
+                    endCol = newCols,
+                    preserveSegments = false,
+                ),
+            )
+            requestProcessPendingUpdatesLocked()
+        }
+
+        handler.post {
+            onResize?.invoke(TerminalDimensions(rows = rows, columns = cols))
+        }
+    }"""
+p.write_text(s[:method_start] + new_resize + s[next_doc:])
+
+# --- TerminalNative.kt: JNI wrapper for cursor query ---
+p = ROOT / "lib/src/main/java/org/connectbot/terminal/TerminalNative.kt"
+s = p.read_text()
+anchor = """    fun resize(rows: Int, cols: Int): Int {
+        checkNotClosed()
+        return nativeResize(nativePtr, rows, cols)
+    }
+"""
+if anchor not in s:
+    raise SystemExit("TerminalNative.resize anchor not found")
+insert = anchor + """
+    /** Read the authoritative cursor position directly from libvterm. */
+    fun getCursorPosition(): CursorPosition {
+        checkNotClosed()
+        val packed = nativeGetCursorPosition(nativePtr)
+        return CursorPosition(
+            row = (packed ushr 32).toInt(),
+            col = packed.toInt(),
+        )
+    }
+"""
+s = s.replace(anchor, insert, 1)
+decl = "    private external fun nativeResize(ptr: Long, rows: Int, cols: Int): Int\n"
+if decl not in s:
+    raise SystemExit("TerminalNative.nativeResize declaration not found")
+s = s.replace(decl, decl + "    private external fun nativeGetCursorPosition(ptr: Long): Long\n", 1)
+p.write_text(s)
+
+# --- Terminal.h: public cursor query ---
+p = ROOT / "lib/src/main/cpp/Terminal.h"
+s = p.read_text()
+anchor = "    int resize(int rows, int cols);\n"
+if anchor not in s:
+    raise SystemExit("Terminal.h resize anchor not found")
+p.write_text(s.replace(anchor, anchor + "    uint64_t getCursorPosition();\n", 1))
+
+# --- Terminal.cpp: query libvterm under native mutex + JNI entrypoint ---
+p = ROOT / "lib/src/main/cpp/Terminal.cpp"
+s = p.read_text()
+resize_impl = """int Terminal::resize(int rows, int cols) {
+    std::scoped_lock lock(mLock);
+
+    mRows = rows;
+    mCols = cols;
+
+    if (mVt) {
+        vterm_set_size(mVt, rows, cols);
+        vterm_screen_flush_damage(mVts);
+    }
+
+    return 0;
+}
+"""
+if resize_impl not in s:
+    raise SystemExit("Terminal.cpp resize implementation not found")
+cursor_impl = resize_impl + """
+uint64_t Terminal::getCursorPosition() {
+    std::scoped_lock lock(mLock);
+    if (!mVt) return 0;
+
+    VTermPos pos{0, 0};
+    VTermState* state = vterm_obtain_state(mVt);
+    if (state) {
+        vterm_state_get_cursorpos(state, &pos);
+    }
+    return (static_cast<uint64_t>(static_cast<uint32_t>(pos.row)) << 32) |
+           static_cast<uint32_t>(pos.col);
+}
+"""
+s = s.replace(resize_impl, cursor_impl, 1)
+
+jni_resize = """JNIEXPORT jint JNICALL
+Java_org_connectbot_terminal_TerminalNative_nativeResize(JNIEnv* /* env */, jobject /* thiz */,
+                                                         jlong ptr, jint rows, jint cols) {
+    auto* term = reinterpret_cast<Terminal*>(ptr);
+    return term->resize(rows, cols);
+}
+"""
+if jni_resize not in s:
+    raise SystemExit("Terminal.cpp JNI resize anchor not found")
+jni_cursor = jni_resize + """
+JNIEXPORT jlong JNICALL
+Java_org_connectbot_terminal_TerminalNative_nativeGetCursorPosition(JNIEnv* /* env */, jobject /* thiz */,
+                                                                    jlong ptr) {
+    auto* term = reinterpret_cast<Terminal*>(ptr);
+    return static_cast<jlong>(term->getCursorPosition());
+}
+"""
+p.write_text(s.replace(jni_resize, jni_cursor, 1))
+
+# Align composite-build tooling only; runtime source remains tag 0.1.0 + the fixes above.
+p = ROOT / "gradle/libs.versions.toml"
+s = p.read_text()
+if 'androidGradlePlugin = "9.2.1"' not in s:
+    raise SystemExit("Expected termlib AGP 9.2.1 not found")
+p.write_text(s.replace('androidGradlePlugin = "9.2.1"', 'androidGradlePlugin = "9.3.1"', 1))
+
+p = ROOT / "gradle/wrapper/gradle-wrapper.properties"
+s = p.read_text()
+if "gradle-9.5.1-bin.zip" not in s:
+    raise SystemExit("Expected termlib Gradle 9.5.1 wrapper not found")
+p.write_text(s.replace("gradle-9.5.1-bin.zip", "gradle-9.6.1-bin.zip", 1))
+
+print("Applied ConnectBot rotation repaint + native cursor resync patch")
