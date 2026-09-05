@@ -246,6 +246,17 @@ jobs:
           if old not in s:
               raise SystemExit("app_name resource not found")
           p.write_text(s.replace(old, new))
+
+          # The included termlib 0.1.0 applies net.researchgate.release, whose
+          # task listener is not configuration-cache compatible under Gradle 9.6.1.
+          # Disable configuration cache for this CI composite build only.
+          gp = Path("cb/gradle.properties")
+          gt = gp.read_text()
+          old_cc = "org.gradle.configuration-cache=true"
+          new_cc = "org.gradle.configuration-cache=false"
+          if old_cc not in gt:
+              raise SystemExit("Expected ConnectBot configuration-cache setting not found")
+          gp.write_text(gt.replace(old_cc, new_cc, 1))
           PY
 
       - name: Add on-device rotation probe
